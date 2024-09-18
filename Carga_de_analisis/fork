@@ -1,3 +1,6 @@
+/* Equipo: Sin nombre    18/09/24   version 2*/
+/*no se le modifico nada al codigo*/
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
