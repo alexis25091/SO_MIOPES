@@ -1,5 +1,7 @@
 /* Equipo: Sin nombre    18/09/24   version 2*/
-/*se modifico error de sintaxis en una de las declaraciones*/
+/* Se modifico error de sintaxis en una de las declaraciones*/
+/* Analisis: muestra la comunicacion entre el proceso padre e hijo, el padre solicita una cadena de hasta 10 caracteres,
+se lo envia al hijo el cual lo imprime de vuelta, termina el hijo y luego el padre */
 
 #include <stdio.h>
 #include <errno.h>
