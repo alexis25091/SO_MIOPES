@@ -3,6 +3,7 @@
 #include <unistd.h>
                                 /*hilos pesados*/
             /*tiene varias tareas en la cocina en la que se ejecuta 1 hilo por cada preparacion*/
+                              /*en este se hace uso de hilos ligeros*/
 
                                             /*Función para simular todoas las preparaciones*/
 void *preparar(void *arg) {
