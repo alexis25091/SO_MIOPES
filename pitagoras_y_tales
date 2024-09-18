@@ -1,0 +1,149 @@
+: Equipo: Tamlitos de dulce sin pasas	Fecha: 13-09-24		versión 2	
+:: Es un programa que dados los valores introducidos por teclado calcula la medida de cada lado de un triangulo rectangulo usando el teorema de pitagoras
+:: Ademas se calcula la Proporcionalidad de Segmentos y un Segmento Desconocido utilizando el teorema de Tales
+@echo off
+
+:start
+    cls
+    echo Selecciona un teorema para resolver
+    
+    echo ----------------------------------------------------------------------
+    echo -                           MENU PRINCIPAL                           -
+    echo ----------------------------------------------------------------------
+    echo - 1.- Teorema de Pitagoras                                             
+    echo - 2.- Teorema de Tales                                                  
+    echo - 3.- Salir                                                            
+    echo ----------------------------------------------------------------------
+    set /p option="Selecciona la opcion: "
+
+    if "%option%" == "1" goto MenuPitagoras
+    if "%option%" == "2" goto MenuTales
+    if "%option%" == "3" goto Salir
+
+    echo Opcion no valida, intenta de nuevo.
+    pause
+    goto start
+
+:MenuPitagoras
+    cls
+    
+    echo Selecciona una opcion
+    echo ----------------------------------------------------------------------
+    echo -                                                                    -
+	ECHO -	* *   **        * *** *        * *  *       *       *        -
+	ECHO -	*  * * *        *              *  * *       *       *        -   
+	ECHO -	*   *  *        *              *   *        *       *        -
+	ECHO -	*      *        * ****         *    *       *       *        -
+	ECHO -	*      *        *              *    *       *       *        -
+	ECHO -	*      *        *              *    *        *     *         -
+	ECHO -	*      *        * *****        *    *          ***           -
+    echo -                                                                     -
+    echo ----------------------------------------------------------------------
+    echo                    1.- Calcular Cateto Opuesto                                  
+    echo                    2.- Calcular Cateto Adyacente                                  
+    echo                    3.- Calcular Hipotenusa                                      
+    echo                    4.- Regresar al Menu Principal                                  
+    echo ----------------------------------------------------------------------
+    set /p option="Selecciona la opcion: "
+
+    if "%option%" == "1" goto CatetoOpuesto
+    if "%option%" == "2" goto CatetoAdyacente
+    if "%option%" == "3" goto Hipotenusa
+    if "%option%" == "4" goto start
+
+    echo Opcion no valida, intenta de nuevo.
+    pause
+    goto MenuPitagoras
+
+:CatetoOpuesto
+	echo.
+	cls
+	echo --Cateto Opuesto--
+	set /p number1="Cateto adyacente: "
+	set /p number2="Hipotenusa: "
+	for /f "delims=" %%a in ('powershell -command "[math]::Sqrt((%number2%*%number2%)-(%number1%*%number1%))"') do set sqrt=%%a
+	echo El resultado es: %sqrt%
+	pause
+	goto MenuPitagoras
+	
+:CatetoAdyacente
+	echo.
+	cls
+	echo --Cateto Adyacente--
+	set /p number3="Cateto opuesto: "
+	set /p number4="Hipotenusa: "
+	for /f "delims=" %%a in ('powershell -command "[math]::Sqrt((%number4%*%number4%)-(%number3%*%number3%))"') do set sqrt=%%a
+	echo El resultado es: %sqrt%
+	pause
+	goto MenuPitagoras
+	
+
+:Hipotenusa
+	echo.
+	cls
+	echo --Hipotenusa--
+	set /p number5="Cateto opuesto: "
+	set /p number6="Cateto adyacente: "
+	for /f "delims=" %%a in ('powershell -command "[math]::Sqrt((%number5%*%number5%)+( %number6%*%number6%))"') do set sqrt=%%a
+	echo la Hipotenusa vale: %sqrt%
+	pause
+	goto MenuPitagoras
+	
+
+:MenuTales
+    cls
+    echo Selecciona una opcion para el Teorema de Tales
+echo ----------------------------------------------------------------------
+    echo -                                                                    -
+	ECHO -	* *   **        * *** *        * *  *       *       *        -
+	ECHO -	*  * * *        *              *  * *       *       *        -   
+	ECHO -	*   *  *        *              *   *        *       *        -
+	ECHO -	*      *        * ****         *    *       *       *        -
+	ECHO -	*      *        *              *    *       *       *        -
+	ECHO -	*      *        *              *    *        *     *         -
+	ECHO -	*      *        * *****        *    *          ***           -
+    echo -                                                                     -
+    echo ----------------------------------------------------------------------
+    echo                    1.- Calcular Proporcionalidad de Segmentos
+    echo                    2.- Calcular Segmento Desconocido
+    echo                    3.- Regresar al Menu Principal
+    echo ----------------------------------------------------------------------
+    set /p option="Selecciona la opcion: "
+
+    if "%option%" == "1" goto TalesProporcionalidad
+    if "%option%" == "2" goto TalesSegmentoDesconocido
+    if "%option%" == "3" goto start
+
+    echo Opcion no valida, intenta de nuevo.
+    pause
+    goto MenuTales
+
+:TalesProporcionalidad
+    cls
+    echo --Calcular Proporcionalidad de Segmentos--
+    set /p a=Segmento a en la primera linea: 
+    set /p b=Segmento b en la primera linea: 
+    set /p c=Segmento correspondiente a 'a' en la segunda linea: 
+    set /a resultado=(c*b)/a
+    echo El segmento desconocido en la segunda linea es: %resultado%
+    pause
+    goto MenuTales
+
+:TalesSegmentoDesconocido
+    cls
+    echo -----------------------------------
+    echo Calcular lado desconocido en triángulos semejantes
+    echo -----------------------------------
+    set /p a=Lado a en el primer triangulo: 
+    set /p b=Lado b en el primer triangulo: 
+    set /p c=Lado correspondiente a 'a' en el segundo triangulo: 
+    set /a resultado=(c*b)/a
+    echo El lado desconocido en el segundo triangulo es: %resultado%
+    pause
+    goto MenuTales
+
+:Salir
+    cls
+    echo Saliendo del programa...
+    pause
+    exit
