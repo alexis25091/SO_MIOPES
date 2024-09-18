@@ -1,3 +1,6 @@
+/* Equipo: Sin nombre    18/09/24   version 2*/
+/* le quitamos un for repetido, y algunos errores de sintaxis */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -14,6 +17,6 @@ int main (int argc, char *argv[]){
     if (execv ("•/execprog2", argv)< 0){
         printf("Error en la invocacion a execprog2 \n");
         exit (1);
-    };
+    }
     exit(0);
 }
