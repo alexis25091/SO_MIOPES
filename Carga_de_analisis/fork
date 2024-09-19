@@ -1,5 +1,7 @@
 /* Equipo: Sin nombre    18/09/24   version 2*/
-/*no se le modifico nada al codigo*/
+/* No se le modifico nada al codigo*/
+/* Analisis: se crean ambos hilos padre e hijo una vez creados el del padre se queda 20 segundos en espera y el hijo 30 segundos,
+una vez terminados esos dos tiempos se imprimen dos mensajes correspondientes de que cada hilo finalizo */
 
 #include <unistd.h>
 #include <stdlib.h>
