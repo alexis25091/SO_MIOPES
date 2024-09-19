@@ -1,6 +1,7 @@
 /* Equipo: Sin nombre    18/09/24   version 2*/
 /* Le quitamos un for repetido, y algunos errores de sintaxis */
 /* Analisis: intenta invocar argumentos de otro programa que se llama execprog2 y si no logra invocarlo se manda un mensaje de error */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
