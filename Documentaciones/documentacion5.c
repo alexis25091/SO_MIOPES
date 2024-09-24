@@ -1,4 +1,6 @@
 //Codigo 5. Ejemplo 3
+/*El programa simula la ejecucion simultanea de las tareas en 3 servidores utilizando los hilos, 
+haciendo que todos procesen datos al mismo tiempo.*/
 
 /* Seccion de librerias */
 #include <stdio.h>
