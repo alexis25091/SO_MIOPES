@@ -15,7 +15,7 @@ int clientes = 0;
 
 void* llegada_cliente(void* arg) {
     
-    while (1) {
+    while (clientes < MAX_CLIENTES) {
         usleep(rand () % 3000000);              /*Cada cliente tarda un tiempo aleatorio en entrar*/
         pthread_mutex_lock(&mutex);             /*Bloquea acceso para otros hilos*/
         clientes++;                             /*Aumenta el numero de clientes*/
@@ -27,10 +27,10 @@ void* llegada_cliente(void* arg) {
             
             /*Bloquea la operacion*/
             sem_wait(&operacion_en_curso);      /*SO- Para reducir el valor a 0, bloqueado operaciones hasta que*/
-            
+            int limite=clientes;
             /*Salida de los clientes, uno por uno*/
-            for (int i = clientes; i > 0; i--){
-                printf("Cliente salio de la sucursal. Clientes en la sucursal: %d\n", i- 1);
+            for (int i = limite; i > limite - CLIENTES_POR_FURGON; i--){
+                printf("Cliente salio de la sucursal. Clientes en la sucursal: %d\n", i);
                 usleep (500000);
             }
             
@@ -49,7 +49,7 @@ void* llegada_cliente(void* arg) {
 
 void* operacion_furgon(void* arg) {
     
-    while (1) {
+    while (clientes <= MAX_CLIENTES) {
         /*Espera hasta que el semáforo clientes tenga un valor positivo, lo que indica que hay clientes 
         en la sucursal listos para ser procesados*/
         sem_wait (&clientes_en_sucursal);       /*SC- Espera que haya suficientes clientes. Si hay procede a la operacion*/
@@ -63,6 +63,11 @@ void* operacion_furgon(void* arg) {
             /*Cuando el furgón termina, libera el semáforo operacion, permitiendo que otra operación pueda comenzar si es necesario*/
             sem_post(&operacion_en_curso);      /*SO- Libera semaforo, permite nuevas operaciones*/
             printf("Furgon blindado completo la operacion. \n");
+        }
+        
+        // Salir del bucle si se han alcanzado los 100 clientes
+        if (clientes >= MAX_CLIENTES) {
+            break;
         }
     }
 }
@@ -91,7 +96,7 @@ int main() {
     
     /*destruye el mutex*/
     pthread_mutex_destroy(&mutex);
-
+    printf("si llega");
     return 0;
 }
 
