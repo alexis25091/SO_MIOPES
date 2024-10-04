@@ -1,0 +1,363 @@
+=================================================================
+PAGINA SO
+=================================================================
+
+=> SINCRONIZACIÓN ENTRE PROCESOS/HILOS
+
+La sincronización entre procesos/hilos es crucial en entornos concurrentes donde múltiples tareas o subprocesos comparten recursos o realizan operaciones simultáneamente.
+Un proceso es una instancia independiente de un programa en ejecución. Cada proceso tiene su propio espacio de memoria y recursos asignados. Los procesos operan de manera aislada entre sí, y cada uno ejecuta su propia copia del programa, manteniendo su propio estado y contexto.
+La comunicación entre procesos suele ser más compleja en comparación con la comunicación entre hilos, ya que implica mecanismos específicos conocidos como comunicación interprocesos (IPC). Estos mecanismos permiten que los procesos compartan información y se coordinen. Algunos métodos comunes de IPC incluyen colas, tuberías, archivos compartidos, memoria compartida, y mensajes.
+La creación y mantenimiento de procesos conlleva un mayor overhead en términos de recursos. Cada proceso tiene su propio espacio de memoria, tablas de sistema, registros y otros recursos asignados. Este enfoque de aislamiento entre procesos garantiza una mayor independencia, pero también requiere más recursos en comparación con el uso de hilos, que comparten el mismo espacio de memoria.
+Un hilo es una unidad más pequeña dentro de un proceso que comparte el mismo espacio de memoria y recursos. A diferencia de los procesos, los hilos no tienen su propio espacio de memoria independiente, pero comparten la información de programa y datos con otros hilos del mismo proceso. Cada hilo tiene su propio contador de programa y registros de CPU, lo que le permite ejecutarse de manera independiente dentro del contexto del proceso al que pertenece.
+Los hilos comparten datos más fácilmente en comparación con los procesos, ya que comparten el mismo espacio de memoria. La comunicación entre hilos puede ser más eficiente en términos de velocidad y complejidad, ya que no requiere mecanismos de IPC como en el caso de los procesos. Sin embargo, la comunicación entre hilos debe gestionarse cuidadosamente mediante técnicas de sincronización para evitar problemas como condiciones de carrera y garantizar la consistencia de los datos compartidos.
+Los hilos tienen un menor overhead en términos de recursos en comparación con los procesos. Dado que comparten la mayoría de los recursos con otros hilos dentro del mismo proceso, la creación y el mantenimiento de hilos son generalmente más eficientes. Sin embargo, es importante destacar que debido a la compartición de memoria, los hilos también requieren sincronización para evitar conflictos y problemas de consistencia en la manipulación de datos compartidos.
+
+
+=> PRINCIPIOS DE LA SINCRONIZACIÓN: CONDICIÓN DE CARRERA, SECCIÓN CRÍTICA, EXCLUSIÓN MUTUA, ATOMICIDAD, ABRAZO MORTAL
+
+CONDICIÓN DE CARRERA
+Ocurre cuando dos o más procesos que están trabajando juntos comparten algún dato modificable (por ejemplo, una posición de memoria de lectura/escritura) que cada proceso puede leer o escribir y el resultado final depende del orden de ejecución. (Nota: Este problema no sucede en la monoprogramación).
+La condición de carrera se produce cuando:
+•	Acceso concurrente: Dos o más procesos o hilos intentan acceder simultáneamente a un recurso compartido.
+•	Al menos una operación de escritura: Al menos uno de los procesos realiza una operación de escritura (modificación) en el recurso compartido.
+•	No hay sincronización: No se han implementado mecanismos de sincronización adecuados para controlar el acceso concurrente al recurso compartido.
+Como resultado de la condición de carrera, el contenido del recurso compartido puede quedar en un estado inconsistente o incorrecto, ya que las operaciones de lectura y escritura pueden intercalarse de maneras no predecibles.
+Para evitar condiciones de carrera, es necesario utilizar mecanismos de sincronización, como mutexes, semáforos o variables de condición, que permitan a los procesos o hilos coordinar su ejecución de manera que se evite el acceso simultáneo a los recursos compartidos. Estos mecanismos ayudan a garantizar la consistencia de los datos y a prevenir resultados inesperados en entornos concurrentes.
+
+EXCLUSIÓN MUTUA
+Los procesos compiten por el uso de unos recursos limitados. Esos recursos pueden ser:
+1.	Compartibles: Pueden ser empleados por varios procesos de forma concurrente. Ejemplos: CPU, archivos de lectura, áreas de memoria no modificables.
+2.	No compartibles: Su uso se restringe a un único proceso por:
+•	La naturaleza física del recurso: Ejemplos: Unidad de cinta magnética, lectora de tarjetas, impresora.
+•	Si el recurso lo usan otros procesos de forma concurrente, la acción de uno de ellos puede interferir en la de otro: Ejemplos: Archivo de escritura, posición de memoria.
+La exclusión mutua consiste en asegurar que los recursos no compartibles sean accedidos por un único proceso a la vez.
+Para evitar las condiciones de carrera necesitamos exclusión mutua, es decir, si un proceso está usando una variable o archivo compartido, el otro proceso será excluido de hacer lo mismo.
+
+SECCIONES CRÍTICAS Y SECCIONES CRÍTICAS CONDICIONALES
+Las secciones críticas o regiones críticas son fragmentos de programa que acceden a recursos no compartibles. Si dos procesos no están nunca en sus secciones críticas al mismo tiempo, se evitan las condiciones de carrera (esto no impide tener procesos paralelos que cooperen correctamente y eficientemente usando datos compartidos).
+Las regiones críticas condicionales permiten que los procesos ejecuten sus secciones críticas sólo cuando se cumpla una determinada condición.
+Cuando a un proceso no se le satisface la condición, se quedará suspendido en una cola especial en espera del cumplimiento de la condición. Así se consigue que, aunque un proceso espere en una condición, no evite que otros utilicen el recurso. Con ello conseguimos la sincronización además de la exclusión mutua a la sección crítica.
+Condiciones que se requieren para evitar las condiciones de carrera:
+•	Dos procesos no pueden estar simultáneamente dentro de sus secciones críticas.
+•	No se hacen suposiciones sobre las velocidades de los procesos o el número de CPUs.
+•	Ningún proceso que se pare fuera de su sección crítica bloqueará a otros procesos.
+•	Ningún proceso esperará mucho tiempo para entrar en su sección crítica. Por ello, las secciones críticas deben ejecutarse tan rápido como sea posible. Además, un proceso no debe bloquearse dentro de su propia sección crítica (interbloqueo).
+
+ATOMICIDAD
+Es uno de los conceptos fundamentales en la programación concurrente y en sistemas de bases de datos. Asegura que ciertas operaciones se realicen como una unidad atómica e indivisible, evitando condiciones de carrera y garantizando la consistencia de los datos en entornos donde múltiples procesos o hilos pueden acceder y modificar datos compartidos simultáneamente.
+Algunos puntos clave sobre la atomicidad:
+•	Operaciones atómicas: Una operación atómica es aquella que se ejecuta de manera completa e indivisible. Ya sea que consista en una única instrucción o en un conjunto de instrucciones, una operación atómica se considera como si se ejecutara en un solo paso. Si se interrumpe una operación atómica, no dejará el sistema en un estado inconsistente.
+•	Evitar condiciones de carrera: La atomicidad es crucial para evitar condiciones de carrera, que ocurren cuando dos o más procesos intentan modificar un recurso compartido al mismo tiempo, resultando en comportamientos no deseados o inconsistentes.
+•	Mecanismos de sincronización: Los mecanismos de sincronización, como los mutexes, son utilizados para lograr la atomicidad. Al bloquear el acceso al recurso compartido mientras una operación se está realizando, se asegura que ningún otro proceso pueda interferir hasta que la operación se complete.
+•	Transacciones en bases de datos: En el contexto de las bases de datos, la atomicidad se refiere a las transacciones atómicas. Una transacción es un conjunto de operaciones que deben ejecutarse en su totalidad o no ejecutarse en absoluto. Si alguna parte de la transacción falla, se revierten todas las operaciones a un estado consistente, manteniendo la integridad de la base de datos.
+•	Rollback y Commit: Las transacciones en bases de datos suelen incluir dos conceptos relacionados: el commit (confirmación) y el rollback (reversión). El commit confirma que todas las operaciones de la transacción se han realizado con éxito, mientras que el rollback deshace todas las operaciones en caso de un fallo.
+
+ABRAZO MORTAL
+El "abrazo mortal" o deadlock es una situación problemática en sistemas concurrentes donde dos o más procesos o hilos quedan atrapados indefinidamente porque cada uno está esperando que el otro libere un recurso necesario para avanzar. En otras palabras, hay un bloqueo circular de dependencias entre los procesos, y ninguno puede continuar su ejecución.
+Características clave del deadlock:
+•	Bloqueo Mutuo: Cada proceso tiene un recurso que necesita para continuar y posee un recurso que el otro proceso necesita. Ambos procesos se bloquean mutuamente al retener los recursos necesarios para el otro.
+•	Espera Circular: Existe un ciclo en el que cada proceso está esperando que el siguiente libere un recurso. Esta cadena de espera circular es esencial para la existencia del deadlock.
+•	Recursos No Liberados: Los recursos que los procesos han adquirido no se liberan adecuadamente. Esto puede deberse a errores en el código, falta de sincronización o problemas de planificación.
+Para evitar deadlocks y mitigar sus efectos, se implementan diversas estrategias:
+•	Asignación ordenada de recursos: Asignar recursos a los procesos de una manera ordenada y garantizar que todos los procesos sigan el mismo orden al adquirir recursos ayuda a prevenir deadlocks.
+•	iDetección y recuperación: Los sistemas operativos pueden implementar algoritmos de detección de deadlock para identificar si un deadlock ha ocurrido. Luego, se pueden tomar medidas, como liberar recursos o terminar procesos, para recuperarse de la situación.
+•	Jerarquía de recursos: Establecer una jerarquía de recursos y requerir que los procesos adquieran recursos en un orden específico puede prevenir deadlocks.
+•	Timeouts y liberación forzada: Si un proceso detecta que ha estado esperando demasiado tiempo por un recurso, puede liberar los recursos adquiridos y volver a intentar adquirirlos más tarde. Esto evita la permanencia indefinida en un deadlock.
+•	Exclusión mútua: Limitar el acceso a recursos críticos mediante el uso de mutexes o semáforos puede prevenir situaciones de deadlock, pero también puede reducir la concurrencia.
+
+
+=> SEMÁFOROS Y MÚTEX
+Como en la vida real, un semáforo es una herramienta que permite sincronizar, en este caso procesos, los cuales deben acceder a recursos sin llegar a un conflicto, que se traduciría en inconsistencias de datos, interbloqueos y problemas de concurrencia y sincronización.
+Implementado, un semáforo es una estructura de datos.
+Un semáforo se asemeja a un número entero en tres aspectos:
+•	Al crear el semáforo, se tiene la posibilidad de iniciar su valor con cualquier número entero. Sin embargo, una vez establecido, las únicas operaciones permitidas son incrementar (aumentar en uno) y disminuir (reducir en uno). No se permite la lectura directa del valor actual del semáforo.
+•	Al disminuir el semáforo, si el resultado es negativo, el hilo que realiza la operación queda bloqueado y no puede proseguir hasta que otro hilo incrementa el semáforo.
+•	Al incrementar el semáforo, si existen otros hilos en espera, uno de ellos se desbloquea.
+
+
+=> MONITORES
+En el ámbito de la programación concurrente, la sincronización y la gestión de recursos compartidos son dos desafíos fundamentales. Los monitores, propuestos por E.W. Dijkstra en 1968, se erige como una abstracción poderosa y versátil para abordar estos desafíos de manera efectiva.
+Los monitores se caracterizan por encapsular variables y procedimientos en una estructura única, proporcionando una interfaz cohesiva para la manipulación de recursos compartidos. Su funcionalidad central radica en dos pilares: la exclusión mutua automática y la gestión de variables condición.
+La exclusión mutua es un aspecto crítico que abordan los monitores. Garantizan que solo un hilo o proceso pueda ejecutar un procedimiento monitor a la vez, eliminando así las condiciones de carrera y promoviendo un acceso seguro a recursos compartidos. Esta característica simplifica el diseño y la implementación de la exclusión mutua, reduciendo la propensión a errores asociados con la concurrencia.
+Otra función distintiva de los monitores es la gestión de variables condición. Estas variables son fundamentales para la comunicación y sincronización entre hilos o procesos, facilitando la coordinación eficiente en entornos concurrentes. Las variables condición permiten la espera y la señalización, contribuyendo a una ejecución más coordinada y eficiente.
+La importancia de los monitores se refleja en diversos aspectos clave. En primer lugar, facilitan la sincronización de manera efectiva, simplificando la implementación y reduciendo la complejidad asociada a la concurrencia. Esta capacidad mejora la legibilidad del código concurrente y facilita su mantenimiento, factores cruciales en el desarrollo de software robusto.
+Además, los monitores desempeñan un papel crucial en la reducción de errores comunes asociados con la concurrencia. La encapsulación de la sincronización y la exclusión mutua dentro de los monitores ayuda a prevenir problemas como condiciones de carrera y deadlocks, contribuyendo a la fiabilidad y seguridad del software.
+La aparición de los monitores responde a la necesidad imperante de proporcionar una abstracción más estructurada y segura para la programación concurrente. En un contexto donde la complejidad y propensión a errores de los enfoques tradicionales, como el uso de semáforos y mutex, se volvían evidentes, los monitores emergieron como una solución más poderosa y fácil de usar.
+
+
+=> PLANIFICACIÓN
+En el ámbito de la computación, la planificación de procesos es un componente fundamental de los sistemas operativos, encargándose de determinar el orden en que los procesos accederán al procesador.
+Este proceso es crucial para optimizar la eficiencia del sistema al asignar recursos de manera equitativa y minimizar los tiempos de espera de los procesos.
+La esencia de la planificación de procesos reside en la gestión de la concurrencia, donde múltiples procesos compiten por el acceso al procesador. El objetivo principal es maximizar la utilización del CPU, minimizar el tiempo de respuesta y garantizar una distribución justa de los recursos del sistema.
+Para lograr esto, los sistemas operativos emplean algoritmos de planificación que determinan la secuencia en la que los procesos se ejecutarán.
+
+Existen varios criterios y estrategias que guían la planificación de procesos:
+•	Prioridades: Los procesos pueden tener asignadas prioridades, indicando su importancia relativa para el sistema. La planificación de procesos da preferencia a aquellos con prioridades más altas, asegurando que las tareas críticas reciban un tratamiento adecuado.
+•	Tiempo compartido: En sistemas de tiempo compartido, la CPU se divide entre varios procesos en pequeños intervalos de tiempo. Esto proporciona una apariencia de ejecución simultánea y permite que múltiples usuarios interactúen con el sistema de manera aparentemente simultánea.
+•	Colas de prioridad: Los procesos se organizan en colas según sus prioridades, y el planificador selecciona el proceso de mayor prioridad para su ejecución. Esto asegura que los procesos críticos reciban atención inmediata.
+•	Round Robin: Este algoritmo asigna a cada proceso un intervalo de tiempo fijo en el que puede ejecutarse. Si un proceso no se completa durante su intervalo, se coloca al final de la cola, permitiendo que otros procesos tengan la oportunidad de ejecutarse.
+•	Algoritmos de Preemptiva y No Preemptiva: Los algoritmos preemptivos permiten que un proceso sea interrumpido y suspendido, mientras que los no preemptivos permiten que un proceso se ejecute hasta su finalización antes de seleccionar otro.
+La importancia de la planificación de procesos radica en su capacidad para optimizar los recursos del sistema. Al asignar el procesador de manera eficiente, se mejora la utilización de la CPU y se reduce el tiempo de espera de los procesos, lo que contribuye a un sistema operativo más ágil y receptivo. Además, la planificación equitativa y basada en prioridades asegura una distribución justa de los recursos, evitando situaciones de inanición y garantizando que todos los procesos reciban una oportunidad adecuada de ejecución.
+
+
+=> CRITERIOS
+En la infraestructura de sistemas operativos, la planificación de procesos se erige como un componente crítico, determinando cómo se asignará el recurso más preciado, el tiempo de CPU, entre los distintos procesos concurrentes. En este ensayo, exploraremos los criterios fundamentales que orientan la toma de decisiones en la planificación de procesos, buscando optimizar la eficiencia y garantizar una equidad en la distribución de recursos en los sistemas operativos modernos.
+•	Prioridad: Uno de los criterios más destacados es la asignación de prioridades a los procesos. Esta estrategia permite dar preferencia a procesos críticos o urgentes, asegurando que aquellos con mayor importancia para el sistema o la aplicación reciban atención inmediata. La prioridad se convierte así en un indicador clave para la toma de decisiones del planificador de procesos.
+•	Tiempo de Ejecución Restante (SRTN): El tiempo de ejecución restante es un criterio que se enfoca en minimizar el tiempo de espera total. Los procesos son seleccionados con base en la estimación de cuánto tiempo les resta para su finalización. Esta estrategia busca optimizar la utilización del CPU al priorizar aquellos procesos que requieren menos tiempo para su ejecución.
+•	Tiempo de Ejecución Estimado (SJF o SJN): Similar al enfoque SRTN, el criterio de tiempo de ejecución estimado busca seleccionar procesos con el tiempo de ejecución más corto. Esta estrategia tiene como objetivo minimizar el tiempo de espera total y mejorar la eficiencia del sistema al asignar la CPU de manera eficaz.
+•	Round Robin: La técnica Round Robin introduce equidad en la planificación de procesos al asignar a cada proceso un quantum de tiempo fijo. Esto garantiza que todos los procesos tengan la oportunidad de ejecutarse, evitando que un proceso acapare el CPU de manera prolongada. La equidad se convierte en el núcleo de esta estrategia, asegurando una distribución justa de los recursos.
+•	First-Come First-Served (FCFS): El criterio FCFS adopta un enfoque sencillo pero eficaz al ejecutar los procesos en el orden en que llegan. Este método, aunque simple, puede dar lugar a tiempos de espera largos y, por ende, se utiliza con precaución en entornos donde la eficiencia es una prioridad.
+•	Prioridad Dinámica, Multi-Nivel de Colas y Planificación en Tiempo Real: Estos criterios avanzados permiten una adaptabilidad más dinámica en la planificación de procesos. La prioridad dinámica ajusta las prioridades en función del comportamiento pasado o del estado actual del proceso. El multinivel de colas implica la organización jerárquica de procesos, moviéndose entre colas según su comportamiento. La planificación en tiempo real asegura que ciertos procesos cumplan con plazos estrictos, fundamental en aplicaciones donde la respuesta rápida es crítica.
+
+
+=> ALGORITMOS
+•	Primero en entrar-primero en salir: También denominado FCFS (First-Come First-Served), es un algoritmo que utiliza una fila de procesos determinando el funcionamiento de cada proceso por el orden de llegada. Al llegar el proceso es puesto detrás del que llegó antes que él. Se resalta que al comenzar a ejecutarse un proceso, su ejecución no es interrumpida hasta terminar.
+•	Prioridad al más corto: Conocido como SJF (Shortest Job First). Este proceso se distingue porque cuando un proceso se encuentra en ejecución, voluntariamente cambia de estado, es decir que el tiempo de ejecución del proceso no es determinado. Por lo cual cada proceso tiene una asignación de tiempo cuando vuelve a ser ejecutado y va ejecutando el proceso con la menor cantidad de tiempo asignada. Al encontrarse que dos algoritmos poseen la misma cantidad de tiempo, se utilizará el algoritmo FCFS.
+•	Planificación por turno rotatorio: Llamado Round Robin, es un algoritmo donde se determina el mismo tiempo para la ejecución de todos los procesos. Si un proceso no puede ejecutarse por completo en el tiempo asignado su ejecución será después de la ejecución de todos los procesos que se ejecuten con el tiempo asignado. Este algoritmo se fundamenta en FCFS y ordena la cola de procesos circularmente cuando se hallan en estado de listos.
+•	Planificación por prioridad: Esta planificación se caracteriza porque a cada proceso se le asigna una prioridad y se continúan con un criterio determinado. Los procesos serán atendidos de acuerdo con la prioridad determinada.
+•	Planificación garantizada: En esta planificación el sistema se enfoca en la cantidad de usuarios que debe atender. Donde en un número n de usuarios se asignará a cada usuario 1/n de tiempo de ejecución.
+•	Planificación de colas múltiples: Derivado de MQS (Multilevel Queue Scheduling). Es un algoritmo donde la cola de procesos en estado de listos se divide en varias colas más pequeñas. Los procesos se clasifican a partir de un criterio que determina en qué cola se ubicará el proceso cuando se encuentre en estado de listo.
+
+TIPOS DE PLANIFICACIÓN
+La planificación de procesos busca la eficacia y la equidad de los tiempos, tanto de respuesta como de regreso, además del rendimiento.
+En la planificación de procesos podemos encontrar tres tipos principales:
+•	Planificación a largo plazo: En esta planificación se determina cuáles procesos serán los siguientes en ser ejecutados. La toma de decisiones es realizada bajo los requisitos de los procesos previamente anunciados y los que se encuentran libres en el sistema luego de finalizar otro proceso.
+•	Planificación a mediano plazo: En la Planificación a mediano plazo se decide cuáles tiempos deben ser bloqueados y en qué momento determinado ya sea por la falta o la saturación de algún recurso o porque la solicitud exigida no puede atenderse en el momento. La toma de decisiones es efectuada de acuerdo a la entrada y a la salida de los procesos que se encuentran en estado bloqueado.
+•	Planificación a corto plazo: En este tipo de planificación se determina en cada instante el procedimiento para compartir al equipo que recursos necesitan todos los procesos. Es de resaltar que este tipo de planificación es ejecutado decenas de veces por segundo.
+•	Se resalta que en la planificación de procesos se debe tener en cuenta los tiempos que se pueden calcular, tales como: El tiempo de espera medio, el tiempo de retorno del proceso y el tiempo de retorno medio.
+
+
+=> PLANIFICACIÓN DE HILOS
+La planificación de hilos constituye un elemento esencial en sistemas operativos modernos, permitiendo la coordinación eficiente de ejecuciones concurrentes.
+
+COORDINACIÓN CONCURRENTE
+A diferencia de los procesos, los hilos comparten el mismo espacio de memoria y recursos dentro de un proceso. La planificación de hilos se centra en determinar el orden en el que los hilos accederán al procesador, optimizando la ejecución paralela y minimizando conflictos en el acceso a recursos compartidos.
+
+CRITERIOS DE PLANIFICACIÓN DE HILOS
+Los criterios utilizados en la planificación de hilos comparten similitudes con los de procesos, pero se adaptan a las características particulares de la concurrencia de hilos. Algunos de estos criterios incluyen:
+•	Prioridad de hilos: La asignación de prioridades a los hilos es fundamental. Los hilos con mayor prioridad se ejecutan antes, permitiendo que los procesos críticos sean atendidos con prontitud.
+•	Quantum de tiempo: La asignación de un quantum de tiempo a cada hilo garantiza una ejecución equitativa. Una gestión adecuada de los quanta contribuye a evitar la monopolización de recursos por parte de un hilo y fomenta la equidad en la ejecución.
+•	Política de prioridad dinámica: Similar a la planificación de procesos, la prioridad dinámica permite ajustar las prioridades de los hilos en función de su comportamiento y estado actual. Esta flexibilidad contribuye a una adaptación dinámica a las demandas del sistema.
+
+VENTAJAS DE LA PLANIFICACIÓN DE HILOS
+La capacidad de ejecutar múltiples hilos simultáneamente ofrece ventajas significativas en términos de rendimiento y capacidad de respuesta. Al compartir recursos y coordinar la ejecución de hilos, los sistemas operativos pueden maximizar la utilización de la CPU y responder eficientemente a las demandas de tareas concurrentes.
+
+DESAFÍOS Y SOLUCIONES
+La planificación de hilos también enfrenta desafíos específicos, como la gestión de la concurrencia y la sincronización de accesos a recursos compartidos. Mecanismos como semáforos, mutex y monitores se utilizan para mitigar problemas como condiciones de carrera y asegurar una ejecución coherente.
+
+
+
+
+=========================================================================
+DIAPOSITIVAS 
+==============================================================================
+
+=> SEMÁFOROS
+Un semáforo es una variable especial (o tipo abstracto de datos) que constituye el método clásico para restringir o permitir el acceso a recursos compartidos (por ejemplo, un recurso de almacenamiento del sistema o variables del código fuente) en un entorno de multiprocesamiento (en el que se ejecutarán varios procesos concurrentemente). Fueron inventados por Edsger Dijkstra en 1965 y se usaron por primera vez en el sistema operativo THEOS.
+
+Los semáforos se emplean para permitir el acceso a diferentes partes de programas (llamados secciones críticas) donde se manipulan variables o recursos que deben ser accedidos de forma especial. Según el valor con que son inicializados se permiten a más o menos procesos utilizar el recurso de forma simultánea.
+Un tipo simple de semáforo es el binario, que puede tomar solamente los valores 0 y 1. Se inicializan en 1 y son usados cuando sólo un proceso puede acceder a un recurso a la vez. Son esencialmente lo mismo que los mutex.
+Cuando el recurso está disponible, un proceso accede y decrementa el valor del semáforo con la operación P. El valor queda entonces en 0, lo que hace que si otro proceso intenta decrementarlo tenga que esperar. Cuando el proceso que decrementó el semáforo realiza una operación V, algún proceso que estaba esperando comienza a utilizar el recurso.
+
+Semáforo: Es una herramienta de sincronización.
+• Semáforo S se define como una variable entera
+• Dos operaciones standard modifican el valor de un semáforo S wait() y signal()
+• Puede ser accedido solo por dos operaciones indivisibles (deben ser atómicas):
+wait (S) -> while S< 0 do no-op;
+S:=S-1;
+signal (S)S=S+1:
+
+Un semáforo S tiene un valor entero no negativo.
+- Dos operaciones
+•	up(s): incrementa el valor de S.
+•	down(s): si S es positivo, decrementa el valor de S, de lo contrario hace esperar al proceso/hilo llamante.
+- Cuando S==0, down(S) hace dormir el hilo; lo mueve al estado bloqueado.
+- No hay espera activa
+- Si S==0, up(S) también despierta un proceso (si hay alguno durmiendo).
+usa una lista interna de procesos dormidos
+- Las llamadas up y down son acciones atómicas.
+
+
+=> MUTEX
+Cuando no se necesita la habilidad del semáforo de contar, algunas veces se utiliza una versión simplificada, llamada Mutex.
+Los mutexes son buenos sólo para administrar la exclusión mutua para cierto recurso compartido o pieza de código. Se implementan con facilidad y eficiencia, lo cual hace que sean especialmente útiles en paquetes de hilos que se implementan en su totalidad en espacio de usuario.
+Un Mutex es una variable que puede estar en uno de dos estados: abierto (desbloqueado) o cerrado (bloqueado). En consecuencia, se requiere sólo 1 bit para representarla, pero en la práctica se utiliza con frecuencia un entero, en donde 0 indica que está abierto y todos los demás valores indican que está cerrado. Se utilizan dos procedimientos con los mutexes.
+Cuando un hilo (o proceso) necesita acceso a una región crítica, llama a mutex lock. Si el mutex está actualmente abierto (lo que significa que la región crítica está disponible), la llamada tiene éxito y entonces el hilo llamador puede entrar a la región crítica.
+
+Si el mutex ya se encuentra cerrado, el hilo que hizo la llamada se bloquea hasta que el hilo que está en la región crítica termine y llame a mutex unlock. Si se bloquean varios hilos por el mutex, se selecciona uno de ellos al azar y se permite que adquiera el mutex. Como los mutexes son tan simples, se pueden implementar con facilidad en espacio de usuario, siempre y cuando haya una instrucción disponible.
+
+Mutex
+- Versión simplificada de un semáforo
+Sólo dos estados:
+•	0 significa desbloqueado
+•	1 significa bloqueado
+- Se usan para garantizar la exclusión mutua
+- Son fáciles y eficientes para implementar
+-Si está disponible la instrucción TSL se pueden implementar en espacio de usuario.
+
+VARIABLES DE CONDICIÓN
+Los mutexes son buenos para permitir o bloquear el acceso a una región crítica.
+Las variables de condición permiten que los subprocesos se bloqueen debido a que no se cumple alguna condición.
+-Casi siempre los dos métodos se usan juntos.
+
+-wait-signal
+Las variables de condición no son contadores, no se acumulan para uso posterior como los semáforos.
+-Si una variable de condición es señalada y nadie está esperando esta se pierde.
+El wait debe venir antes del signal.
+-Esto facilita la implementación.
+-Las señales perdidas no son un problema.
+
+
+=> MONITORES
+Los monitores tienen una importante propiedad que los hace útiles para lograr la exclusión mutua: sólo puede haber un proceso activo en un monitor en cualquier instante.
+Los monitores son una construcción del lenguaje de programación, por lo que el compilador sabe que son especiales y puede manejar las llamadas a los procedimientos del monitor en forma distinta a las llamadas a otros procedimientos. 
+Por lo general, cuando un proceso llama a un procedimiento de monitor, las primeras instrucciones del procedimiento comprobarán si hay algún otro proceso activo en un momento dado dentro del monitor.
+De ser así, el proceso invocador se suspenderá hasta que el otro proceso haya dejado el monitor. Si no hay otro proceso utilizando el monitor, el proceso invocador puede entrar.
+
+Es responsabilidad del compilador implementar la exclusión mutua en las entradas del monitor, pero una forma común es utilizar un mutex o semáforo binario.
+Como el compilador (y no el programador) está haciendo los arreglos para la exclusión mutua, es mucho menos probable que algo salga mal.
+En cualquier caso, la persona que escribe el monitor no tiene que saber acerca de cómo el compilador hace los arreglos para la exclusión mutua.
+Basta con saber que, al convertir todas las regiones críticas en procedimientos de monitor, nunca habrá dos procesos que ejecuten sus regiones críticas al mismo tiempo.
+Un problema con los monitores (y también con los semáforos) es que están diseñados para resolver el problema de exclusión mutua en una o más CPUs que tengan acceso a una memoria común.
+
+- Con semáforos y mutexes la intercomunicación entre procesos parece fácil.
+- Si el buffer está lleno, el productor se bloqueará con el mutex en 0. Después, la próxima vez que el consumidor trate de acceder al buffer hará el down del mutex y también se bloqueara.
+- Habremos llegado a un bloqueo mutuo.
+- Debemos ser muy cuidadosos cuando usamos semáforos, un solo error y todo el sistema se detiene.
+- Propuesta por Brinch Hansen (1973) y Hoare (1974)
+Un monitor es una construcción de lenguaje de programación que controla el acceso a datos compartidos
+Es un código de sincronización agregado por el compilador y aplicado en tiempo de ejecución
+- Un monitor es un módulo que encapsula
+Las estructuras de datos compartidos
+Los procedimientos que operan en las estructuras de datos compartidos.
+La sincronización entre hilos concurrentes que invocan los procedimientos
+- Un monitor protege sus datos del acceso no sincronizado
+Garantiza que los hilos que acceden a sus datos lo hagan a través de sus procedimientos, los cuales interactúan solo de manera legítima
+- Los monitores tienen una importante propiedad que los hace útiles para exclusion mutua:
+En un instante dado solamente un proceso puede estar activo en un monitor.
+
+- Los monitores son una construcción de los lenguajes.
+El compilador los tiene que tratar especialmente.
+Cuando un proceso llama a un procedimiento del monitor el compilador debe agregar instrucciones para chequear que no haya otro proceso activo.
+Si hay uno activo debe suspenderse hasta que el otro proceso deje el monitor.
+Es un trabajo del compilador implementar la exclusión mutua, por ejemplo usando un mutex.
+- Dado que es el compilador el que arregla las cosas para la exclusión mutua, es
+mucho más difícil que algo no funcione.
+El programador no necesita saber como el compilador se arregla para hacer la exclusión mutua.
+Solamente es suficiente conocer que colocando todas las regiones críticas en procedimientos de un monitor, no sucederá que dos procesos ejecuten sus regiones críticas al mismo tiempo.
+
+VARIABLES DE CONDICIÓN
+Los monitores dan una manera simple de lograr la exclusión mutua, pero se necesita algo más:
+Necesitamos que los procesos se bloqueen cuando no pueden continuar.
+Para esto son las variables de condición y las dos operaciones sobre ellas: wait y signal.
+- Cuando un procedimiento del monitor descubre que no puede continuar, hace un wait en una variable de condición, el procedimiento se bloquea y otro que no había podido entrar puede hacerlo.
+¿qué se hace después de sucede después del signal?
+Hoare propuso que el proceso bloqueado corriera
+Brinch Hansen propuso que el proceso que hace un signal debe salir del monitor inmediatamente.
+- Si el signal se hace sobre una variable de condición que tiene varios procesos esperando, solo uno es revivido (determinado por el planificador del sistema).
+
+
+=> LAS VARIABLES DE CONDICIÓN Y LOS LOCKS
+La variable de condición no reemplaza los locks, sino que los complementa
+=> sleep (condición, bloqueo) O wait (condición, bloqueo)
+- Primero suelte el lock, coloque el hilo en la cola de la condición, si se despierta, recupere el bloqueo
+- Una vez que el Sleep regresa, despertado por algún otro hilo y también mantiene el bloqueo
+=> wake (condición) O signal (condición): despierta un hilo esperando la condición (cola)
+Algunos sistemas usan un nombre diferente como notify(condición)
+
+
+=> PASO DE MENSAJES
+Este método de comunicación entre procesos utiliza dos primitivas (send y receive) que, al igual que los semáforos y a diferencia de los monitores, son llamadas al sistema en vez de construcciones del lenguaje. Como tales, se pueden colocar con facilidad en procedimientos de biblioteca.
+La primera llamada envía un mensaje a un destino especificado y la segunda recibe un mensaje de un origen especificado (o de cualquiera, si al receptor no le importa). Si no hay un mensaje disponible, el receptor se puede bloquear hasta que llegue uno. De manera alternativa, puede regresar de inmediato con un código de error.
+
+Al menos dos operaciones:
+=> send(destination,&message);
+=> receive(source,&message);
+
+Los mensajes se pueden perder (Ej. en la red).
+- Para proteger de los mensajes perdidos el receptor puede enviar un mensage de reconocimiento (acknowledgment).
+- Para evitar el problema del reconocimiento perdido el emisor puede enviar el mensaje dos veces.
+- Se necesita que el receptor pueda distingir el mensaje repetido (números de secuencia)
+- Problema de autentificacion, ¿como se que me estoy comunicando con el compañero correcto y no con un impostor?
+
+- Sincrónicos o asincrónicos
+¿Cuando envío me bloqueo hasta que el otro haya recibido o continúo?
+- Uso de mailboxes o buffers
+¿Qué capacidad tiene el almacenamiento intermedio?
+  Capacidad cero
+  Capacidad limitada
+  Capacidad sin límite
+
+
+
+
+=================================================================
+VIDEOS ALGORITMOS
+=================================================================
+
+=> ALGORITMOS DE PLANIFICACIÓN 
+
+FIFO - PRIMERO EN ENTRAR PRIMERO EN SALIR
+Este algoritmo se asemeja en casos de la vida real en los casos cuando una persona va al supermercado, o a los bancos que solo se puede atender una persona a la vez. 
+A su vez también se implementa en dispositivos como impresoras que solo cuentan con una cola de impresión para realizar el proceso.
+Caracteristicas:
+•	Los procesos pasan a la CPU en orden de llegada a la cola de procesos listos.
+•	Cada proceso va terminando su ejecución para darle paso al siguiente proceso.
+•	Fácil de implementar ya que solo se necesita tan solo mantener una lista de tareas activas
+•	Algoritmo no expulsivo(una vez que se realiza el proceso no va a ser interrumpido hasta que termine)
+
+PROCESOS POR PRIORIDAD
+Este algoritmo planifica la entrada de los procesos a la CPU de acuerdo con la prioridad asociada con cada uno de ellos. 
+Los procesos con mayor prioridad se ejecutan antes que aquellos con menor prioridad
+Características:
+• A cada proceso se le asigna un número entero que determina la prioridad que tiene el proceso.
+• Se evalúa que proceso tiene más prioridad y a ese se le asigna la CPU.
+• El proceso que tenga la prioridad con el número menor es el que tiene mayor
+prioridad.
+• Si llegara a realizarse un empate, esos procesos se realizan por el algoritmo
+FIFO. Existen dos tipos:
+• Algoritmo no expulsivo: Una vez que un proceso comienza a ejecutarse, no se interrumpe hasta que finaliza, independientemente de la prioridad de otros procesos que lleguen después
+• Algoritmo expulsivo: Si llega un proceso con mayor prioridad mientras otro está ejecutándose, el proceso en ejecución es interrumpido, y la CPU es asignada al proceso de mayor prioridad.
+Se pueden obtener algunos cálculos como:
+• Tiempo del sistema: Tiempo de salida – Tiempo de llegada
+• Tiempo de espera: Tiempo de ejecución – Tiempo de llegada
+• Tiempo Promedio de Espera: Sumatoria de el tiempo de espera de los
+procesos / el número de procesos.
+
+PROCESOS SJF - PRIMERO EL TRABAJO MÁS CORTO
+EL Shortest Job First es decir el primero del trabajo más corto, es un algoritmo que se supone que es más rápido que el FIFO, porque sus características son asociar cada proceso el tiempo 
+de ráfaga del CPU, seleccionar el proceso con menor ráfaga de CPU, en caso de que sea un empate aplicar FIFO y es un algoritmo no expulsivo. Dando a entender que realizara primero los que tienen menos 
+tiempo de aplicarse pero si hay dos con el mismo tiempo, aplica el algoritmo FIFO dándole prioridad al primero y como es expulsivo no va a ser interrumpido hasta que finalice.
+La desventaja del algoritmo es que cuando llama a varios programas y si los primeros en llegar tienen mayor ráfaga de CPU serán los últimos a comparación de los demas que hayan llegado al más tarde, pero con menor ráfaga de CPU.
+Tiene diferentes tiempos:
+Tiempo del sistema que es el tiempo de salida menos el tiempo de llegada Tiempo de espera que es el tiempo de ejecución menos el tiempo de llegada Tiempo promedio de espera que es la suma del tiempo de espera dividido entre el
+
+
+PROCESO CÍCLICO O ROUND ROBIN
+El algoritmo Round Robin (RR) es un método de planificación de procesos en sistemas operativos que se utiliza para gestionar la ejecución de múltiples procesos de manera equitativa. 
+Es especialmente adecuado para sistemas de tiempo compartido, donde se busca que todos los procesos tengan una oportunidad justa de utilizar la CPU.
+Funcionamiento:
+• Quantum (Q): Cada proceso se le asigna un tiempo fijo de ejecución conocido
+como quantum. Este valor es crucial, ya que determina cuánto tiempo puede
+utilizar un proceso la CPU antes de ser interrumpido.
+• Ejecución de Procesos:
+- Ráfaga menor que el quantum: Si un proceso tiene una ráfaga de CPU que es menor que el quantum, se ejecuta por completo y finaliza su tarea. Después de esto, se retira de la CPU y se permite que otro proceso en la
+cola tome su lugar.
+- Ráfaga mayor que el quantum: Si un proceso necesita más tiempo del
+que le ofrece el quantum, se ejecuta únicamente durante el tiempo asignado. Al terminar este intervalo, el proceso se interrumpe y se coloca al final de la cola de procesos listos, permitiendo que otro 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
