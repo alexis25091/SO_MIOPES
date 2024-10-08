@@ -146,3 +146,21 @@ Desventajas:
 
 Para encontrar bloques de memoria libres y mantener la lista actualizada, puede requerir más tiempo y recursos.
 Debido a la información adicional almacenada en cada bloque, puede usar más memoria que otras técnicas de manejo de memoria.
+
+
+-La administración eficiente de la memoria es fundamental para el funcionamiento óptimo de los sistemas operativos.   (v)
+-Desde la gestión de la memoria principal y secundaria ha evolucionado significativamente son importantes para el sistema operativo. (v)
+-No son importantes para el sistema operativo la paginación, segmentación y el swapping. (f)
+-Los sistemas operativos deben de ser eficiente en el uso de los recursos de memoria disponible. (v)
+-Las técnicas no solo optimizan el uso de la memoria, sino que también mejoran el rendimiento general del sistema.(v)
+-Abstracción de memoria es un método para organizar la memoria con el sistema operativo y los procesos del usuario activo.(v)
+-La variación establece que la memoria de acceso aleatorio, también conocida como RAM, el sistema operativo puede estar en la parte inferior de la memoria.(v)
+-Los sistemas operativos dependen de la gestión de la memoria para que los procesos puedan ejecutarse.(v)
+-El sistema de almacenamiento eficiente presenta tres características: El costo por bit disminuye con el tiempo de acceso, la capacidad aumenta con el costo por unidad y más 
+capacidad significa más tiempo de acceso.(f)
+-Los registros del procesador en el nivel superior tienen la memoria más rápida, pero con una menor capacidad y un mayor costo.(v)
+
+
+
+
+
