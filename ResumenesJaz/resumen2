@@ -28,6 +28,8 @@ Opción c)
 Indica que tanto la ROM (Memoria de Solo Lectura) como los controladores de dispositivos pueden estar en la parte superior de la memoria, mientras que el resto del sistema está 
 en la RAM (Memoria de Acceso Aleatorio).
 
+3.1.1 Organización de la memoria
+
 Los sistemas operativos dependen de la gestión de la memoria para que los procesos puedan ejecutarse, por lo que es considerado un componente fundamental del sistema operativo.
 
 El gestor de memoria del sistema operativo debe conectar las necesidades de las aplicaciones con los mecanismos; es decir, es el encargado de realizar todas las conexiones con 
