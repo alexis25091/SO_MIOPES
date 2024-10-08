@@ -1,0 +1,122 @@
+La administración eficiente de la memoria es fundamental para el funcionamiento óptimo de los sistemas operativos. 
+Desde los primeros días de la computación, la gestión de la memoria principal y secundaria ha evolucionado significativamente, adaptándose a las demandas crecientes de programas cada vez más complejos y datos voluminosos. 
+En este contexto, técnicas avanzadas como la paginación, la segmentación y el swapping (intercambio) juegan un papel crucial al permitir a los sistemas operativos manejar de manera eficiente los recursos de memoria disponible.
+Las técnicas mencionadas anteriormente no solo optimizan el uso de la memoria, sino que también mejoran el rendimiento general del sistema, asegurando que los procesos se ejecuten de manera fluida y sin interrupciones. 
+Este recurso didáctico digital explora en detalle cómo funcionan y contribuyen al funcionamiento estable y eficiente de los sistemas operativos modernos.
+Es de suma importancia para los estudiantes que al cursar esta unidad de aprendizaje vinculen el conocimiento con la vida profesional ya que los conocimientos adquiridos les ayudaran a resolver problemas de la vida real en el 
+manejo de las memorias y su funcionamiento con los diferentes sistemas operativos.
+
+3.1 Abstracción de memoria
+
+Es un método para organizar la memoria con el sistema operativo y los procesos del usuario activo, donde se utiliza solo la memoria física.
+Como se muestra en la siguiente imagen, se manejan tres variaciones potenciales.
+
+Opción a)
+Establece que, en la memoria de acceso aleatorio, también conocida como RAM (Memoria de Acceso Aleatorio), el sistema operativo puede estar en la parte inferior de la memoria. En la actualidad, 
+se utiliza principalmente en minicomputadoras y mainframes.
+
+Opción b)
+Indica que puede estar en la parte superior de la memoria de lectura, también conocida como ROM (Memoria de Solo Lectura).
+El modelo se utiliza en algunos sistemas integrados y computadoras de portátiles.
+
+Opción c)
+Indica que tanto la ROM (Memoria de Solo Lectura) como los controladores de dispositivos pueden estar en la parte superior de la memoria, mientras que el resto del sistema está en la RAM (Memoria de Acceso Aleatorio).
+
+Los sistemas operativos dependen de la gestión de la memoria para que los procesos puedan ejecutarse, por lo que es considerado un componente fundamental del sistema operativo.
+
+El gestor de memoria del sistema operativo debe conectar las necesidades de las aplicaciones con los mecanismos; es decir, es el encargado de realizar todas las conexiones con los dispositivos físicos de la computadora.
+
+Las computadoras requieren un sistema de almacenamiento eficiente. El sistema ideal tendría un costo razonable, un tiempo de acceso reducido para mejorar el rendimiento y una gran capacidad para ejecutar la mayor cantidad 
+de programas posibles; no obstante, ningún sistema de almacenamiento de datos cumple simultáneamente con estos tres requisitos, de ahí que se establecen las siguientes características:
+
+El costo por bit aumenta con el tiempo de acceso.
+La capacidad aumenta con el costo por unidad.
+Más capacidad significa más tiempo de acceso.
+La solución al problema es crear una jerarquía de almacenamiento en lugar de un solo componente de memoria, como se puede observar en la siguiente imagen.
+
+Según si la información almacenada es permanente o no, los diferentes tipos de memoria que se muestran pueden ser volátiles o no volátiles; de manera similar, se pueden clasificar en sistemas de almacenamiento internos 
+o externos dependiendo de si se encuentran en dispositivos externos al sistema o no.
+Los registros del procesador en el nivel superior tienen la memoria más rápida, pero con una menor capacidad y un mayor costo; por otro lado, los registros del procesador en el nivel más bajo tienen la memoria más lenta, pero con una mayor 
+capacidad y un costo más bajo.
+El principal componente de almacenamiento interno de un sistema de computadora es la memoria principal. La memoria caché es un nivel de almacenamiento más rápido y de menor capacidad utilizado para mejorar el rendimiento; esta se utiliza 
+como almacenamiento intermedio de los datos más recientes para que no necesites acceder a la memoria principal en el futuro.
+
+3.1.2 Administración de almacenamiento
+La administración de almacenamiento en sistemas operativos es fundamental para gestionar eficientemente los recursos de almacenamiento disponibles en un sistema informático. Aquí hay algunos aspectos clave sobre cómo se lleva a cabo esta administración:
+
+a) Administración de espacio
+Se encarga de asignar y liberar espacio en el almacenamiento para los archivos y datos del sistema y de los usuarios. Esto incluye técnicas como el particionamiento del disco, 
+la gestión de archivos y la administración del espacio libre.
+
+b) Sistemas de archivos
+Define la estructura y el método para almacenar y organizar archivos en dispositivos de almacenamiento. Los sistemas de archivos pueden variar en complejidad y características, 
+desde simples sistemas como FAT (Tabla de Asignación de Archivos) hasta sistemas avanzados como NTFS (Sistema de Archivos de Nueva Tecnología) en Windows o ext4 (Sistema de archivos extendido 4) en sistemas Linux.
+
+c) Gestión de cuotas
+Permite establecer límites en el espacio de almacenamiento que los usuarios o grupos de usuarios pueden utilizar. Esto ayuda a prevenir el uso excesivo de recursos y garantiza una distribución equitativa del almacenamiento entre los usuarios.
+
+Estos aspectos son importantes para mantener la integridad de la información almacenada en una computadora.
+
+Revisar los siguientes aspectos complementarios sobre la administración de almacenamiento, los cuales serán discutidos en clase.
+
+-Control de acceso.
+-Recuperación y respaldo.
+-Optimización de rendimiento.
+-Seguridad e integridad de los datos.
+-Los dispositivos de almacenamiento masivo externos, tales como los discos, cintas magnéticas y los discos ópticos constituyen un sistema de almacenamiento no volátil de mucha mayor capacidad que la memoria principal. 
+Esta memoria externa no volátil se conoce como memoria auxiliar o secundaria. Los discos magnéticos también se suelen emplear para proporcionar una extensión a la memoria principal, conocida como memoria virtual.
+
+3.1.3 Memoria de intercambio
+Los sistemas operativos utilizan la memoria de intercambio, también conocida como swap (intercambio), para administrar la memoria virtual. el sistema operativo selecciona los bloques de datos que son menos utilizados y los transfieren al 
+almacenamiento secundario cuando la RAM (Memoria de Acceso Aleatorio) está llena. Esto libera espacio en la memoria para otros procesos que lo necesiten. El sistema operativo recupera los datos en la misma cuando se necesitan nuevamente. Si ocurre con demasiada frecuencia, 
+este proceso de intercambio puede ser visible para el usuario.
+
+Ventajas:
+
+Permite ejecutar aplicaciones que requieren más memoria que la disponible físicamente.
+Ayuda a evitar que los programas se cierren inesperadamente debido a la falta de memoria.
+Facilita la multitarea al permitir que múltiples programas se ejecuten simultáneamente.
+Desventajas:
+
+Puede ralentizar el sistema si hay un intercambio excesivo de datos entre la RAM (Memoria de Acceso Aleatorio) y el almacenamiento secundario.
+Aumenta la carga en el disco duro o la unidad de estado sólido, lo que puede reducir su vida útil.
+
+3.1.4 Manejo de memoria con mapa de bits
+Los sistemas operativos utilizan el manejo de memoria con mapas de bits para recordar qué bloques de memoria están asignados y cuáles están libres. El uso de un mapa de bits, una estructura de datos que representa cada 
+bloque de memoria como un bit en una secuencia binaria, 
+es esencial.
+
+El mapa de bits muestra el estado de un bloque de memoria por cada bit. El bit 0 puede indicar que el bloque de memoria está libre, mientras que el bit 1 puede indicar que el bloque está asignado. 
+El sistema operativo busca los bloques libres en el mapa de bits cuando se 
+solicita memoria y marca los bloques correspondientes como asignados. los bits se marcan nuevamente como libres cuando se libera memoria.
+
+Ventajas
+
+Utiliza solo un bit por bloque de memoria, lo que lo hace eficiente en términos de espacio.
+Permite la búsqueda de bloques de memoria libres rápidamente.
+Es sencillo de implementar y comprender.
+Desventajas
+
+Puede resultar en fragmentación de la memoria, en la que los bloques de memoria libres se dispersan y no se pueden usar de manera efectiva.
+El mapa de bits puede volverse muy grande, por lo que no es adecuado para sistemas con grandes cantidades de memoria.
+
+
+3.1.5 Manejo de memoria con listas ligadas
+
+El manejo de memoria con listas ligadas es un método para gestionar la memoria constante que se asigna a los procesos de un sistema operativo. mantiene una lista de bloques de memoria asignados, cada uno de los cuales tiene 
+información sobre su tamaño y posición, además de un enlace al siguiente bloque en la lista.
+
+El sistema operativo crea un bloque de memoria y lo incluye en la lista ligada cuando un proceso necesita memoria. El bloque se elimina de la lista por el sistema operativo cuando se libera memoria. 
+Esto facilita el manejo de la memoria fragmentada y permite un acceso rápido a los bloques de memoria asignados.
+
+Ventajas:
+
+El manejo de memoria con listas ligadas es un método para gestionar la memoria constante que se asigna a los procesos de un sistema operativo. Mantiene una lista de bloques de memoria asignados, cada uno de los cuales tiene información sobre su tamaño y posición, 
+además de un enlace al siguiente bloque en la lista.
+El sistema operativo crea un bloque de memoria y lo incluye en la lista ligada cuando un proceso necesita memoria. El bloque se elimina de la lista por el sistema operativo cuando se libera memoria. 
+Esto facilita el manejo de la memoria fragmentada y permite un acceso rápido a los bloques de memoria asignados.
+Las necesidades cambiantes de los procesos los hacen más flexibles.
+Desventajas:
+
+Para encontrar bloques de memoria libres y mantener la lista actualizada, puede requerir más tiempo y recursos.
+Debido a la información adicional almacenada en cada bloque, puede usar más memoria que otras técnicas de manejo de memoria.
