@@ -1,0 +1,117 @@
+MEMORIA VIRTUAL
+Es una técnica o mecanismo implementado en el sistema operativo para poder ejecutar programas que requieren más memoria que la disponible físicamente haciendo uso del almacenamiento en disco.
+Esto evidentemente representa tener ventajas y desventajas, que principalmente serían:
+Ventajas:
+•	Mayor capacidad de memoria: Permite a los programas usar más memoria de la que está físicamente disponible en la RAM (Memoria de Acceso Aleatorio).
+•	Aislamiento de procesos: Cada proceso tiene su propio espacio de dirección virtual, lo que evita que un proceso afecte a otros.
+•	Seguridad: Mejora la seguridad al aislar los procesos y evitar que accedan a la memoria de otros procesos.
+•	Gestión de memoria eficiente: Permite al sistema operativo manejar mejor la memoria física, moviendo datos entre la RAM (Memoria de Acceso Aleatorio) y el disco según sea necesario.
+Desventajas :
+•	Rendimiento: Principalmente afecta en el rendimiento cuando se utiliza mucho el archivo de intercambio, ya que los discos duros son mucho más lentos que la RAM (Memoria de Acceso Aleatorio).
+•	Complejidad: La implementación de la memoria virtual agrega complejidad al sistema operativo.
+
+¿Cómo funciona?
+1.	Se asigna un espacio de dirección virtual: Cada proceso en un sistema operativo tiene su propio espacio de dirección virtual. Esto permite que los procesos no interfieran entre sí y mejora la seguridad y estabilidad del sistema.
+2.	Paginación: La memoria virtual Se divide en páginas (más adelante se extenderá su explicación). Esto permite entonces carga la página solicitada desde el disco duro a la RAM (Memoria de Acceso Aleatorio).
+3.	Tabla de páginas: El sistema operativo mantiene una tabla de páginas para cada proceso. Esta tabla traduce direcciones de memoria virtual a direcciones de memoria física.
+4.	Intercambio (Swapping): Si la RAM (Memoria de Acceso Aleatorio) se llena, el sistema operativo puede mover páginas que no se están utilizando a un área del disco duro llamada "archivo de intercambio" o "swap space" (espacio de intercambio). 
+Esto libera RAM (Memoria de Acceso Aleatorio) para otras páginas que se necesitan en ese momento.
+
+
+PAGINACIÓN
+Como vimos anteriormente, para poder implementar la memoria virtual, se hace uso de "páginas". se divide la memoria virtual y física en bloques de tamaño fijo llamados páginas y marcos de página, respectivamente.
+La página corresponde con una zona de memoria contigua de un determinado tamaño. por motivos de eficiencia en la traducción, este tamaño debe ser de potencia de 2.
+El mapa de memoria de cada proceso se considera dividido en páginas. A su vez, la memoria principal del sistema se considera dividida en zonas del mismo tamaño que se denominan marcos de página. 
+Un marco de página contendrá en un determinado instante una página de memoria de proceso.
+Esquema de traducción de la paginación
+1.	División de la memoria: La memoria virtual y la memoria física se dividen en páginas y marcos de página de igual tamaño. Esto facilita la gestión y asignación de memoria.
+2.	Asignación de páginas: Cuando un programa necesita memoria, el sistema operativo asigna páginas virtuales al programa. Estas páginas se mapean a marcos de página en la memoria física.
+3.	Traducción de direcciones: Cuando el programa accede a una dirección de memoria, la MMU (Unidad de Gestión de Memoria) traduce la dirección virtual a una dirección física utilizando la tabla de páginas.
+4.	Fallas de página: Si el programa intenta acceder a una página que no está en la memoria física (porque ha sido paginada a disco), se produce una falla de página. 
+El sistema operativo debe entonces cargar la página requerida desde el disco a un marco de página en la memoria física.
+
+Ejemplo de paginación
+
+Imagina un sistema con la siguiente configuración:
+•	Tamaño de página: 4 KiloBytes
+•	Memoria física: 16 KiloBytes (4 marcos de página)
+•	Memoria virtual: 64 KiloBytes (16 páginas)
+Proceso
+1.	Asignación de páginas: Un programa solicita 12 KiloBytes de memoria, que se dividen en 3 páginas de 4 KiloBytes cada una.
+2.	Mapeo (traducción): Estas 3 páginas se mapean a 3 de los 4 marcos disponibles en la memoria física.
+3.	Acceso a memoria: Cuando el programa accede a una dirección de memoria, la MMU (Unidad de Gestión de Memoria) traduce la dirección virtual a una dirección física utilizando la tabla de páginas.
+4.	Falla de página: Si el programa intenta acceder a una página que no está en la memoria física, el sistema operativo carga la página requerida desde el disco a la memoria física.
+Un aspecto importante en el rendimiento de un sistema de paginación es el tamaño de la página. evidentemente, su tamaño debe ser potencia de 2 y, dado que va a servir de base memoria virtual, múltiplo del tamaño del bloque de disco. 
+El tamaño típico puede estar entre 2 KiloBytes y 16 KiloBytes.
+
+
+TABLAS DE PÁGINA
+Para poder traducir las direcciones de memoria virtual de un proceso a direcciones físicas, es necesario contar con una estructura de datos que contenga esa relación. A esto se le conoce como tablas de páginas.
+Permiten al sistema operativo gestionar la memoria de manera eficiente, rastreando qué páginas están en la memoria física y cuáles están en el disco.
+Están compuestas de los índices de página y el desplazamiento (la parte baja de la dirección virtual indica el desplazamiento dentro de la página).
+
+Ejemplo de traducción de dirección usando una tabla de páginas simple
+
+Imagina un sistema con las siguientes características:
+
+•	Tamaño de página: 4 KiloBytes
+•	Tamaño de la dirección virtual: 32 bits
+•	Tamaño de la dirección física: 20 bits
+
+Paso a paso
+1.	Dirección virtual: 0x12345ABC
+2.	Índice de página: Los bits más significativos de la dirección virtual se utilizan como índice. supongamos que los primeros 20 bits (0x12345) son el índice de página.
+3.	Desplazamiento dentro de la página: Los 12 bits menos significativos (0xABC) son el desplazamiento dentro de la página.
+4.	Consulta a la tabla de páginas: Usamos el índice de página (0x12345) para buscar en la tabla de páginas.
+5.	Entrada en la tabla de páginas: La entrada correspondiente nos da la dirección del marco de página físico. Supongamos que la entrada es 0x1F.
+6.	Dirección física: La dirección física completa se forma concatenando el marco de página (0x1F) con el desplazamiento dentro de la página (0xABC), dando 0x1FABC
+
+
+ALGORITMOS DE SUSTITUCIÓN DE PÁGINAS
+Son métodos que los sistemas operativos utilizan para decidir qué página en la RAM (Memoria de Acceso Aleatorio) debe ser reemplazada cuando una nueva página necesita ser cargada y no hay suficiente espacio disponible. dentro de los más comunes están:
+
+1. First-In, First-Out (Primero en entrar, primero en salir)
+Reemplaza la página que ha estado en la memoria por más tiempo. 
+A pesar de ser sencillo de usar, como desventaja tiene que no siempre es eficiente, ya que la página más antigua puede seguir siendo utilizada frecuentemente.
+
+Ejemplo: Si las páginas se cargaron en el orden [A, B, C, D] y se necesita cargar una nueva página E, se reemplazará A, la página que llegó primero.
+-----Ejemplo de algoritmo FIFO (Primero en entrar, primero en salir)
+-----Nota: Este código muestra cómo adaptar el algoritmo FIFO (Primero en entrar, primero en salir) para simular la gestión de memoria física en un sistema operativo, donde se utilizan frames para almacenar páginas de memoria.
+
+2. LRU (Menos Recientemente Utilizado)
+Este algoritmo reemplaza la página que no ha sido usada por el mayor período de tiempo.
+Suele ser más eficiente que FIFO (Primero en entrar, primero en salir) porque considera el uso reciente de las páginas.
+Requiere mantener un registro del orden de acceso de las páginas.
+Ejemplo: Si las páginas [A, B, C, D] fueron accedidas en el orden [A, C, B, D] y se necesita cargar una nueva página E, se reemplazará A, ya que es la página que no ha sido usada por más tiempo.
+-----Ejemplo de algoritmo LRU (Menos Recientemente Utilizado)                       
+-----Nota: Este código muestra cómo adaptar el algoritmo LRU (Menos Recientemente Utilizado) para simular la gestión de memoria física en un sistema operativo, donde se utilizan frames (marcos) para almacenar páginas de memoria.
+
+3. OPR (Reemplazo de Página Óptima)
+Aquí se reemplaza la página que no será usada por el período de tiempo más largo en el futuro. en cuestión de rendimiento, es el algoritmo perfecto, pero no se puede implementar en la práctica porque requiere conocer el futuro.
+Ejemplo: Si sabemos que las páginas [A, B, C, D] serán accedidas en el orden [B, A, D, C] y se necesita cargar una nueva página E, se reemplazará C, ya que será la última en ser utilizada en el futuro.
+
+-----Ejemplo de algoritmo OPR (Algoritmo de Reemplazo de Páginas Óptimo)                     
+-----Nota: Este código implementa una versión simplificada del denominado The Optimal Page Replacement Algorithm (Algoritmo de Reemplazo de Páginas Óptimo) para demostrar cómo funciona el reemplazo de páginas en un sistema operativo basado en el conocimiento del acceso futuro a las páginas. 
+En un entorno real, implementarlo requiere predecir o tener conocimiento avanzado del patrón de acceso futuro, lo cual puede ser complejo de lograr.
+
+4. CLOCK (Segunda Oportunidad)
+Es una versión mejorada de FIFO (Primero en entrar, primero en salir). Cada página tiene un bit que indica si ha sido usada recientemente. Si una página tiene el bit en 1, se le da una "segunda oportunidad" y se pone el bit en 0 en lugar de ser reemplazada.
+Ejemplo: Si las páginas [A, B, C, D] están en la memoria y sus bits de uso son [1, 0, 1, 0], y se necesita cargar una nueva página E, se comenzará desde A. Si A tiene su bit en 1, se pone en 0 y se pasa a la siguiente página, B, que será reemplazada si su bit es 0.
+
+5. NRU (Recientemente No Utilizada)
+Este algoritmo clasifica las páginas en cuatro categorías según sus bits de referencia y modificación. Luego, reemplaza una página de la categoría más baja disponible.
+Categorías:
+1.	No referenciada, no modificada.
+2.	No referenciada, modificada.
+3.	Referenciada, no modificada.
+4.	Referenciada, modificada.
+Ejemplo: Si las páginas [A, B, C, D] tienen bits de referencia y modificación como [0, 0], [1, 0], [0, 1], [1, 1] respectivamente, y se necesita cargar una nueva página E, se reemplazará A, ya que está en la categoría 1.
+
+6. LFU (Frecuentemente Menos Utilizado)
+Este algoritmo reemplaza la página que ha sido usada con menos frecuencia.
+
+Toma en cuenta el uso histórico de las páginas, lo que puede ser efectivo en ciertos casos
+Ejemplo: Si las páginas [A, B, C, D] tienen conteos de uso [3, 1, 2, 4], y se necesita cargar una nueva página E, se reemplazará B, la página con el menor conteo de uso.
+Es necesario mencionar que, algunos de los códigos presentados anteriormente son ejemplos que simulan el funcionamiento de los algoritmos, por ende, no son implementaciones directas para un sistema operativo dada su complejidad, aquellos que no tienen ejemplo, 
+se debe a que es necesario implementar el código de un sistema operativo en hardware.
+
