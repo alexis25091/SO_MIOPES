@@ -1,0 +1,239 @@
+INTRODUCCIÓN
+La administración eficiente de la memoria es fundamental para el funcionamiento óptimo de los sistemas operativos. 
+Desde los primeros días de la computación, la gestión de la memoria principal y secundaria ha evolucionado significativamente, 
+adaptándose a las demandas crecientes de programas cada vez más complejos y datos voluminosos. En este contexto, técnicas avanzadas como la paginación, la segmentación y el swapping (intercambio) 
+juegan un papel crucial al permitir a los sistemas operativos manejar de manera eficiente los recursos de memoria disponible.
+Las técnicas mencionadas anteriormente no solo optimizan el uso de la memoria, sino que también mejoran el rendimiento general del sistema, asegurando que los procesos se ejecuten de manera fluida y sin interrupciones. 
+Este recurso didáctico digital explora en detalle cómo funcionan y contribuyen al funcionamiento estable y eficiente de los sistemas operativos modernos.
+Es de suma importancia para los estudiantes que al cursar esta unidad de aprendizaje vinculen el conocimiento con la vida profesional, 
+ya que los conocimientos adquiridos les ayudaran a resolver problemas de la vida real en el manejo de las memorias y su funcionamiento con los diferentes sistemas operativos.
+
+
+ABSTRACCIÓN DE MEMORIA
+Es un método para organizar la memoria con el sistema operativo y los procesos del usuario activo, donde se utiliza solo la memoria física.
+Organización de la memoria
+Opción a)
+Establece que, en la memoria de acceso aleatorio, también conocida como RAM (Memoria de Acceso Aleatorio), el sistema operativo puede estar en la parte inferior de la memoria. En la actualidad, 
+se utiliza principalmente en minicomputadoras y mainframes.
+Opción b)
+Indica que puede estar en la parte superior de la memoria de lectura, también conocida como ROM (Memoria de Solo Lectura).
+El modelo se utiliza en algunos sistemas integrados y computadoras de portátiles.
+Opción c)
+Indica que tanto la ROM (Memoria de Solo Lectura) como los controladores de dispositivos pueden estar en la parte superior de la memoria, mientras que el resto del sistema está en la RAM (Memoria de Acceso Aleatorio).
+
+
+ORGANIZACIÓN DE LA MEMORIA
+Los sistemas operativos dependen de la gestión de la memoria para que los procesos puedan ejecutarse, por lo que es considerado un componente fundamental del sistema operativo.
+El gestor de memoria del sistema operativo debe conectar las necesidades de las aplicaciones con los mecanismos; es decir, es el encargado de realizar todas las conexiones con los dispositivos físicos de la computadora.
+Las computadoras requieren un sistema de almacenamiento eficiente. El sistema ideal tendría un costo razonable, un tiempo de acceso reducido para mejorar el rendimiento y una gran capacidad para ejecutar la mayor cantidad de programas posibles; 
+no obstante, ningún sistema de almacenamiento de datos cumple simultáneamente con estos tres requisitos, de ahí que se establecen las siguientes características:
+El costo por bit aumenta con el tiempo de acceso.
+La capacidad aumenta con el costo por unidad.
+Más capacidad significa más tiempo de acceso.
+La solución al problema es crear una jerarquía de almacenamiento en lugar de un solo componente de memoria, como se puede observar en la siguiente imagen.
+Según si la información almacenada es permanente o no, los diferentes tipos de memoria que se muestran pueden ser volátiles o no volátiles; de manera similar, se pueden clasificar en sistemas de almacenamiento internos o externos dependiendo de si se encuentran en dispositivos externos al sistema o no.
+
+Los registros del procesador en el nivel superior tienen la memoria más rápida, pero con una menor capacidad y un mayor costo; por otro lado, los registros del procesador en el nivel más bajo tienen la memoria más lenta, pero con una mayor capacidad y un costo más bajo.
+El principal componente de almacenamiento interno de un sistema de computadora es la memoria principal. La memoria caché es un nivel de almacenamiento más rápido y de menor capacidad utilizado para mejorar el rendimiento; 
+esta se utiliza como almacenamiento intermedio de los datos más recientes para que no necesites acceder a la memoria principal en el futuro.
+Los dispositivos de almacenamiento masivo externos, tales como los discos, cintas magnéticas y los discos ópticos constituyen un sistema de almacenamiento no volátil de mucha mayor capacidad que la memoria principal. Esta memoria externa no volátil se conoce como memoria auxiliar o secundaria. 
+Los discos magnéticos también se suelen emplear para proporcionar una extensión a la memoria principal, conocida como memoria virtual.
+
+
+ADMINISTRACIÓN DE ALMACENAMIENTO
+La administración de almacenamiento en sistemas operativos es fundamental para gestionar eficientemente los recursos de almacenamiento disponibles en un sistema informático. Aquí hay algunos aspectos clave sobre cómo se lleva a cabo esta administración:
+a) Administración de espacio
+Se encarga de asignar y liberar espacio en el almacenamiento para los archivos y datos del sistema y de los usuarios. Esto incluye técnicas como el particionamiento del disco, la gestión de archivos y la administración del espacio libre.
+
+b) Sistemas de archivos
+Define la estructura y el método para almacenar y organizar archivos en dispositivos de almacenamiento. 
+Los sistemas de archivos pueden variar en complejidad y características, desde simples sistemas como FAT (Tabla de Asignación de Archivos) hasta sistemas avanzados como NTFS (Sistema de Archivos de Nueva Tecnología) en Windows o ext4 (Sistema de archivos extendido 4) en sistemas Linux.
+
+c) Gestión de cuotas
+Permite establecer límites en el espacio de almacenamiento que los usuarios o grupos de usuarios pueden utilizar. Esto ayuda a prevenir el uso excesivo de recursos y garantiza una distribución equitativa del almacenamiento entre los usuarios.
+Estos aspectos son importantes para mantener la integridad de la información almacenada en una computadora.
+Revisar los siguientes aspectos complementarios sobre la administración de almacenamiento, los cuales serán discutidos en clase.
+•	Control de acceso.
+•	Recuperación y respaldo.
+•	Optimización de rendimiento.
+•	Seguridad e integridad de los datos.
+
+
+MEMORIA DE INTERCAMBIO
+Los sistemas operativos utilizan la memoria de intercambio, también conocida como swap (intercambio), para administrar la memoria virtual. 
+El sistema operativo selecciona los bloques de datos que son menos utilizados y los transfieren al almacenamiento secundario cuando la RAM (Memoria de Acceso Aleatorio) está llena. Esto libera espacio en la memoria para otros procesos que lo necesiten. 
+El sistema operativo recupera los datos en la misma cuando se necesitan nuevamente. Si ocurre con demasiada frecuencia, este proceso de intercambio puede ser visible para el usuario.
+Ventajas:
+•	Permite ejecutar aplicaciones que requieren más memoria que la disponible físicamente.
+•	Ayuda a evitar que los programas se cierren inesperadamente debido a la falta de memoria.
+•	Facilita la multitarea al permitir que múltiples programas se ejecuten simultáneamente.
+Desventajas:
+
+•	Puede ralentizar el sistema si hay un intercambio excesivo de datos entre la RAM (Memoria de Acceso Aleatorio) y el almacenamiento secundario.
+•	Aumenta la carga en el disco duro o la unidad de estado sólido, lo que puede reducir su vida útil.
+                        
+--Nota: Este código simula la gestión de una memoria RAM (Memoria de Acceso Aleatorio) limitada, permitiendo añadir elementos y simulando un intercambio de elementos al disco cuando la RAM (Memoria de Acceso Aleatorio) alcanza su capacidad máxima. 
+Es útil para entender conceptos básicos de gestión de memoria y cómo se pueden aplicar en sistemas más complejos.
+
+
+MANEJO DE MEMORIA CON MAPA DE BITS
+Los sistemas operativos utilizan el manejo de memoria con mapas de bits para recordar qué bloques de memoria están asignados y cuáles están libres. El uso de un mapa de bits, una estructura de datos que representa cada bloque de memoria como un bit en una secuencia binaria, es esencial.
+El mapa de bits muestra el estado de un bloque de memoria por cada bit. El bit 0 puede indicar que el bloque de memoria está libre, mientras que el bit 1 puede indicar que el bloque está asignado. 
+El sistema operativo busca los bloques libres en el mapa de bits cuando se solicita memoria y marca los bloques correspondientes como asignados. los bits se marcan nuevamente como libres cuando se libera memoria.                     
+--Nota: Este código proporciona una implementación básica de un sistema de gestión de memoria utilizando mapas de bits en lenguaje C. es importante notar que este es un ejemplo simplificado.
+Ventajas
+•	Utiliza solo un bit por bloque de memoria, lo que lo hace eficiente en términos de espacio.
+•	Permite la búsqueda de bloques de memoria libres rápidamente.
+•	Es sencillo de implementar y comprender.
+Desventajas
+•	Puede resultar en fragmentación de la memoria, en la que los bloques de memoria libres se dispersan y no se pueden usar de manera efectiva.
+•	El mapa de bits puede volverse muy grande, por lo que no es adecuado para sistemas con grandes cantidades de memoria.
+
+
+
+MANEJO DE MEMORIA CON LISTAS LIGADAS
+El manejo de memoria con listas ligadas es un método para gestionar la memoria constante que se asigna a los procesos de un sistema operativo. 
+Mantiene una lista de bloques de memoria asignados, cada uno de los cuales tiene información sobre su tamaño y posición, además de un enlace al siguiente bloque en la lista.
+El sistema operativo crea un bloque de memoria y lo incluye en la lista ligada cuando un proceso necesita memoria. El bloque se elimina de la lista por el sistema operativo cuando se libera memoria. 
+Esto facilita el manejo de la memoria fragmentada y permite un acceso rápido a los bloques de memoria asignados.                        
+--Este es un ejemplo muy básico y no maneja situaciones como la fragmentación de memoria o la asignación dinámica de bloques específicamente, pero muestra la estructura fundamental de cómo podrías implementar un sistema de gestión de memoria utilizando listas ligadas en C.
+Ventajas:
+•	El manejo de memoria con listas ligadas es un método para gestionar la memoria constante que se asigna a los procesos de un sistema operativo. 
+Mantiene una lista de bloques de memoria asignados, cada uno de los cuales tiene información sobre su tamaño y posición, además de un enlace al siguiente bloque en la lista.
+•	El sistema operativo crea un bloque de memoria y lo incluye en la lista ligada cuando un proceso necesita memoria. El bloque se elimina de la lista por el sistema operativo cuando se libera memoria. 
+Esto facilita el manejo de la memoria fragmentada y permite un acceso rápido a los bloques de memoria asignados.
+•	Las necesidades cambiantes de los procesos los hacen más flexibles.
+Desventajas:
+•	Para encontrar bloques de memoria libres y mantener la lista actualizada, puede requerir más tiempo y recursos.
+•	Debido a la información adicional almacenada en cada bloque, puede usar más memoria que otras técnicas de manejo de memoria.
+
+
+
+
+
+
+
+
+
+
+MEMORIA VIRTUAL
+Es una técnica o mecanismo implementado en el sistema operativo para poder ejecutar programas que requieren más memoria que la disponible físicamente haciendo uso del almacenamiento en disco.
+Esto evidentemente representa tener ventajas y desventajas, que principalmente serían:
+Ventajas:
+•	Mayor capacidad de memoria: Permite a los programas usar más memoria de la que está físicamente disponible en la RAM (Memoria de Acceso Aleatorio).
+•	Aislamiento de procesos: Cada proceso tiene su propio espacio de dirección virtual, lo que evita que un proceso afecte a otros.
+•	Seguridad: Mejora la seguridad al aislar los procesos y evitar que accedan a la memoria de otros procesos.
+•	Gestión de memoria eficiente: Permite al sistema operativo manejar mejor la memoria física, moviendo datos entre la RAM (Memoria de Acceso Aleatorio) y el disco según sea necesario.
+Desventajas :
+•	Rendimiento: Principalmente afecta en el rendimiento cuando se utiliza mucho el archivo de intercambio, ya que los discos duros son mucho más lentos que la RAM (Memoria de Acceso Aleatorio).
+•	Complejidad: La implementación de la memoria virtual agrega complejidad al sistema operativo.
+
+¿Cómo funciona?
+1.	Se asigna un espacio de dirección virtual: Cada proceso en un sistema operativo tiene su propio espacio de dirección virtual. Esto permite que los procesos no interfieran entre sí y mejora la seguridad y estabilidad del sistema.
+2.	Paginación: La memoria virtual Se divide en páginas (más adelante se extenderá su explicación). Esto permite entonces carga la página solicitada desde el disco duro a la RAM (Memoria de Acceso Aleatorio).
+3.	Tabla de páginas: El sistema operativo mantiene una tabla de páginas para cada proceso. Esta tabla traduce direcciones de memoria virtual a direcciones de memoria física.
+4.	Intercambio (Swapping): Si la RAM (Memoria de Acceso Aleatorio) se llena, el sistema operativo puede mover páginas que no se están utilizando a un área del disco duro llamada "archivo de intercambio" o "swap space" (espacio de intercambio). 
+Esto libera RAM (Memoria de Acceso Aleatorio) para otras páginas que se necesitan en ese momento.
+
+
+PAGINACIÓN
+Como vimos anteriormente, para poder implementar la memoria virtual, se hace uso de "páginas". se divide la memoria virtual y física en bloques de tamaño fijo llamados páginas y marcos de página, respectivamente.
+La página corresponde con una zona de memoria contigua de un determinado tamaño. por motivos de eficiencia en la traducción, este tamaño debe ser de potencia de 2.
+El mapa de memoria de cada proceso se considera dividido en páginas. A su vez, la memoria principal del sistema se considera dividida en zonas del mismo tamaño que se denominan marcos de página. 
+Un marco de página contendrá en un determinado instante una página de memoria de proceso.
+Esquema de traducción de la paginación
+1.	División de la memoria: La memoria virtual y la memoria física se dividen en páginas y marcos de página de igual tamaño. Esto facilita la gestión y asignación de memoria.
+2.	Asignación de páginas: Cuando un programa necesita memoria, el sistema operativo asigna páginas virtuales al programa. Estas páginas se mapean a marcos de página en la memoria física.
+3.	Traducción de direcciones: Cuando el programa accede a una dirección de memoria, la MMU (Unidad de Gestión de Memoria) traduce la dirección virtual a una dirección física utilizando la tabla de páginas.
+4.	Fallas de página: Si el programa intenta acceder a una página que no está en la memoria física (porque ha sido paginada a disco), se produce una falla de página. 
+El sistema operativo debe entonces cargar la página requerida desde el disco a un marco de página en la memoria física.
+
+Ejemplo de paginación
+
+Imagina un sistema con la siguiente configuración:
+•	Tamaño de página: 4 KiloBytes
+•	Memoria física: 16 KiloBytes (4 marcos de página)
+•	Memoria virtual: 64 KiloBytes (16 páginas)
+Proceso
+1.	Asignación de páginas: Un programa solicita 12 KiloBytes de memoria, que se dividen en 3 páginas de 4 KiloBytes cada una.
+2.	Mapeo (traducción): Estas 3 páginas se mapean a 3 de los 4 marcos disponibles en la memoria física.
+3.	Acceso a memoria: Cuando el programa accede a una dirección de memoria, la MMU (Unidad de Gestión de Memoria) traduce la dirección virtual a una dirección física utilizando la tabla de páginas.
+4.	Falla de página: Si el programa intenta acceder a una página que no está en la memoria física, el sistema operativo carga la página requerida desde el disco a la memoria física.
+Un aspecto importante en el rendimiento de un sistema de paginación es el tamaño de la página. evidentemente, su tamaño debe ser potencia de 2 y, dado que va a servir de base memoria virtual, múltiplo del tamaño del bloque de disco. 
+El tamaño típico puede estar entre 2 KiloBytes y 16 KiloBytes.
+
+
+TABLAS DE PÁGINA
+Para poder traducir las direcciones de memoria virtual de un proceso a direcciones físicas, es necesario contar con una estructura de datos que contenga esa relación. A esto se le conoce como tablas de páginas.
+Permiten al sistema operativo gestionar la memoria de manera eficiente, rastreando qué páginas están en la memoria física y cuáles están en el disco.
+Están compuestas de los índices de página y el desplazamiento (la parte baja de la dirección virtual indica el desplazamiento dentro de la página).
+
+Ejemplo de traducción de dirección usando una tabla de páginas simple
+
+Imagina un sistema con las siguientes características:
+
+•	Tamaño de página: 4 KiloBytes
+•	Tamaño de la dirección virtual: 32 bits
+•	Tamaño de la dirección física: 20 bits
+
+Paso a paso
+1.	Dirección virtual: 0x12345ABC
+2.	Índice de página: Los bits más significativos de la dirección virtual se utilizan como índice. supongamos que los primeros 20 bits (0x12345) son el índice de página.
+3.	Desplazamiento dentro de la página: Los 12 bits menos significativos (0xABC) son el desplazamiento dentro de la página.
+4.	Consulta a la tabla de páginas: Usamos el índice de página (0x12345) para buscar en la tabla de páginas.
+5.	Entrada en la tabla de páginas: La entrada correspondiente nos da la dirección del marco de página físico. Supongamos que la entrada es 0x1F.
+6.	Dirección física: La dirección física completa se forma concatenando el marco de página (0x1F) con el desplazamiento dentro de la página (0xABC), dando 0x1FABC
+
+
+ALGORITMOS DE SUSTITUCIÓN DE PÁGINAS
+Son métodos que los sistemas operativos utilizan para decidir qué página en la RAM (Memoria de Acceso Aleatorio) debe ser reemplazada cuando una nueva página necesita ser cargada y no hay suficiente espacio disponible. dentro de los más comunes están:
+
+1. First-In, First-Out (Primero en entrar, primero en salir)
+Reemplaza la página que ha estado en la memoria por más tiempo. 
+A pesar de ser sencillo de usar, como desventaja tiene que no siempre es eficiente, ya que la página más antigua puede seguir siendo utilizada frecuentemente.
+
+Ejemplo: Si las páginas se cargaron en el orden [A, B, C, D] y se necesita cargar una nueva página E, se reemplazará A, la página que llegó primero.
+-----Ejemplo de algoritmo FIFO (Primero en entrar, primero en salir)
+-----Nota: Este código muestra cómo adaptar el algoritmo FIFO (Primero en entrar, primero en salir) para simular la gestión de memoria física en un sistema operativo, donde se utilizan frames para almacenar páginas de memoria.
+
+2. LRU (Menos Recientemente Utilizado)
+Este algoritmo reemplaza la página que no ha sido usada por el mayor período de tiempo.
+Suele ser más eficiente que FIFO (Primero en entrar, primero en salir) porque considera el uso reciente de las páginas.
+Requiere mantener un registro del orden de acceso de las páginas.
+Ejemplo: Si las páginas [A, B, C, D] fueron accedidas en el orden [A, C, B, D] y se necesita cargar una nueva página E, se reemplazará A, ya que es la página que no ha sido usada por más tiempo.
+-----Ejemplo de algoritmo LRU (Menos Recientemente Utilizado)                       
+-----Nota: Este código muestra cómo adaptar el algoritmo LRU (Menos Recientemente Utilizado) para simular la gestión de memoria física en un sistema operativo, donde se utilizan frames (marcos) para almacenar páginas de memoria.
+
+3. OPR (Reemplazo de Página Óptima)
+Aquí se reemplaza la página que no será usada por el período de tiempo más largo en el futuro. en cuestión de rendimiento, es el algoritmo perfecto, pero no se puede implementar en la práctica porque requiere conocer el futuro.
+Ejemplo: Si sabemos que las páginas [A, B, C, D] serán accedidas en el orden [B, A, D, C] y se necesita cargar una nueva página E, se reemplazará C, ya que será la última en ser utilizada en el futuro.
+
+-----Ejemplo de algoritmo OPR (Algoritmo de Reemplazo de Páginas Óptimo)                     
+-----Nota: Este código implementa una versión simplificada del denominado The Optimal Page Replacement Algorithm (Algoritmo de Reemplazo de Páginas Óptimo) para demostrar cómo funciona el reemplazo de páginas en un sistema operativo basado en el conocimiento del acceso futuro a las páginas. 
+En un entorno real, implementarlo requiere predecir o tener conocimiento avanzado del patrón de acceso futuro, lo cual puede ser complejo de lograr.
+
+4. CLOCK (Segunda Oportunidad)
+Es una versión mejorada de FIFO (Primero en entrar, primero en salir). Cada página tiene un bit que indica si ha sido usada recientemente. Si una página tiene el bit en 1, se le da una "segunda oportunidad" y se pone el bit en 0 en lugar de ser reemplazada.
+Ejemplo: Si las páginas [A, B, C, D] están en la memoria y sus bits de uso son [1, 0, 1, 0], y se necesita cargar una nueva página E, se comenzará desde A. Si A tiene su bit en 1, se pone en 0 y se pasa a la siguiente página, B, que será reemplazada si su bit es 0.
+
+5. NRU (Recientemente No Utilizada)
+Este algoritmo clasifica las páginas en cuatro categorías según sus bits de referencia y modificación. Luego, reemplaza una página de la categoría más baja disponible.
+Categorías:
+1.	No referenciada, no modificada.
+2.	No referenciada, modificada.
+3.	Referenciada, no modificada.
+4.	Referenciada, modificada.
+Ejemplo: Si las páginas [A, B, C, D] tienen bits de referencia y modificación como [0, 0], [1, 0], [0, 1], [1, 1] respectivamente, y se necesita cargar una nueva página E, se reemplazará A, ya que está en la categoría 1.
+
+6. LFU (Frecuentemente Menos Utilizado)
+Este algoritmo reemplaza la página que ha sido usada con menos frecuencia.
+
+Toma en cuenta el uso histórico de las páginas, lo que puede ser efectivo en ciertos casos
+Ejemplo: Si las páginas [A, B, C, D] tienen conteos de uso [3, 1, 2, 4], y se necesita cargar una nueva página E, se reemplazará B, la página con el menor conteo de uso.
+Es necesario mencionar que, algunos de los códigos presentados anteriormente son ejemplos que simulan el funcionamiento de los algoritmos, por ende, no son implementaciones directas para un sistema operativo dada su complejidad, aquellos que no tienen ejemplo, 
+se debe a que es necesario implementar el código de un sistema operativo en hardware.
+
+
+
+
+
