@@ -79,13 +79,7 @@ void moveFrameToFront(FrameList *frameList, Frame *frame) {
     }
 }
 
-// Función para eliminar el frame menos recientemente usado (LRU)
-void removeLRUFrame(FrameList *frameList) {
-    if (frameList->tail != NULL) {
-        Frame *lruFrame = frameList->tail;
-        removeFrame(frameList, lruFrame);
-    }
-}
+
 
 // Función para insertar un frame al frente de la lista (más recientemente usado)
 void insertFrame(FrameList *frameList, Frame *frame) {
@@ -116,6 +110,14 @@ void removeFrame(FrameList *frameList, Frame *frame) {
     }
     frameList->numFrames--;
     free(frame);
+}
+
+// Función para eliminar el frame menos recientemente usado (LRU)
+void removeLRUFrame(FrameList *frameList) {
+    if (frameList->tail != NULL) {
+        Frame *lruFrame = frameList->tail;
+        removeFrame(frameList, lruFrame);
+    }
 }
 
 // Función para buscar un frame específico por número de página
