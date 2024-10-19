@@ -94,18 +94,20 @@
         void loadPage(FrameList *frameList, int page) {
 
             // Busca el frame correspondiente a la pagina
-            Frame *RestAlmcenado = findFrame(frameList, page);
+            Frame *RestAlmcenado = findFrame(frameList, page);                //Lo que hace es buscar si la pagina esta ya en la memoria y se almacena en RestAlmcenado
 
             // Si la pagina ya esta en memoria, simplemente actualiza su estado
-                if (RestAlmcenado != NULL) {
-                    RestAlmcenado->valid = true;  // Actualiza el bit de referencia
+                if (RestAlmcenado != NULL) {                                //Verifica si se encontró un frame que ya contiene la página (es decir, si no es NULL)
+                        
+                    RestAlmcenado->valid = true;  // Actualiza el bit de referencia dando a entender que ya esta en uso
                     return;
                 }
 
-            // Si no hay espacio, se necesita reemplazar un frame
-            if (frameList->numFrames == NUM_FRAMES) {
-                // Inicia el ciclo en el frame actual
-                Frame *current = frameList->current ? frameList->current : frameList->head;
+            
+            if (frameList->numFrames == NUM_FRAMES) {                // Inicia el ciclo en el frame actual para verificar si no ha alcanzado el limite o sea no hay espacios para cargar la pagina
+                    
+                Frame *current = frameList->current ? frameList->current : frameList->head;   /*Si current o sea el puntero no es NULL, se usa; de lo contrario, se comienza desde el head (primer frame). 
+                                                                                                Esto permite empezar desde donde se dejó en el último ciclo. */
 
                 while (true) {
                 // Si el bit de referencia es 0, se puede reemplazar
@@ -123,7 +125,7 @@
             }
         }
 
-        // Crea e inserta el nuevo frame
+        // Crea e inserte el nuevo frame
         Frame *frame = createFrame();
             frame->page = page;
             frame->valid = true; // Establecer bit de referencia a 1
