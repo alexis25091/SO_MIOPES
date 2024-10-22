@@ -1,0 +1,86 @@
+3.3 SEGMENTACIÓN
+Se trata de una técnica avanzada de gestión de memoria en sistemas operativos que permite dividir el espacio de direcciones lógicas de un proceso en segmentos de tamaño variable, representando cada segmento una unidad lógica y semántica del programa.
+A continuación se presentan algunos puntos importantes que se cubren cuando se emplea la segmentación de memoria.
+-	Organización lógica
+En lugar de tratar la memoria como un único bloque contiguo, la segmentación le permite dividir la memoria en segmentos más pequeños que corresponden a partes lógicamente relacionadas de su programa.
+-	Protección y compartición
+Cada segmento puede tener permisos diferentes, lo que facilita la implementación de mecanismos de protección y seguridad. Esto permite compartir segmentos entre diferentes procesos o protegerlos del acceso exclusivo por parte de un proceso en particular.
+-	Fragmentación interna reducida
+A diferencia de la paginación, que puede desperdiciar pequeñas porciones de memoria al dividirla en páginas fijas, la segmentación reduce la fragmentación interna.
+-	Gestión flexible de memoria
+Los segmentos pueden crecer o reducirse dinámicamente según las necesidades del programa durante la ejecución. Esto mejora el uso de la memoria y evita asignaciones estáticas que pueden desperdiciar recursos.
+
+La segmentación de memoria proporciona una forma flexible y eficiente de administrar, lo que facilita proteger, compartir y administrar dinámicamente recursos de memoria para programas complejos de varios niveles.
+Los programas de usuario se pueden dividir mediante segmentación, que divide el programa y sus datos asociados en múltiples segmentos. Hay un límite en la longitud máxima de un segmento, pero no es necesario que todos los programas tengan la misma longitud. 
+De manera similar a la paginación y segmentación, una dirección lógica consta de dos partes, en este caso un número de segmento y un desplazamiento.
+Dominar esta técnica es fundamental para los programadores y desarrolladores de sistemas operativos que desean optimizar el rendimiento y la seguridad de las aplicaciones en entornos informáticos modernos.
+
+3.3.1 IMPLEMENTACIÓN DE LA SEGMENTACIÓN PURA
+La segmentación pura es una técnica de gestión de memoria utilizada por los sistemas operativos para dividir el espacio de direcciones de un proceso en segmentos de diferentes tamaños que pueden crecer o reducirse según las necesidades del programa. 
+A diferencia de la paginación, que divide la memoria en páginas de tamaño fijo, la segmentación permite una partición más flexible y lógica para alinearse con estructuras de programas como código, pila y datos.
+A continuación se presentan algunas de las características de la segmentación pura.
+-	Segmentos lógicos
+En lugar de dividir la memoria física en bloques de tamaño fijo, la segmentación pura divide el espacio de direcciones en segmentos lógicos que corresponden a diferentes partes del programa. Estos segmentos pueden incluir código de programa, datos globales, pila de ejecución, etc.
+-	Direcciones segmentadas
+Las direcciones en sistemas segmentados constan de dos partes: un número de segmento y un desplazamiento dentro de ese segmento. Esto permite que cada segmento se procese de forma independiente para la protección y la gestión del almacenamiento.
+-	Tablas de segmentos
+Cada proceso tiene una tabla de segmentos que contiene la base y los límites de cada segmento. La base es la dirección inicial del segmento en la memoria física y el límite define el tamaño del segmento.
+-	Protección y compartición
+La segmentación permite una protección detallada de la memoria al permitir que cada segmento tenga sus propios permisos (lectura, escritura, ejecución). Además, facilita compartir segmentos entre procesos, como código en bibliotecas compartidas.
+Ventajas:
+-	Flexibilidad
+Permite a los programadores administrar la memoria de manera eficiente asignando diferentes segmentos a diferentes partes del programa.
+-	Protección
+Mejora la seguridad del sistema al restringir el acceso a segmentos específicos según los privilegios asignados.
+-	Compatibilidad
+Ejecuta fácilmente múltiples programas. Procesos concurrentes a través de una gestión de almacenamiento más eficiente y organizada.
+Aunque la segmentación pura es menos común en los sistemas operativos modernos que la paginación o la segmentación de páginas, sigue siendo una técnica valiosa en determinadas situaciones, especialmente cuando proteger y compartir la memoria es importante.
+Desventajas:
+-	Fragmentación
+La fragmentación interna puede ocurrir dentro de los segmentos, desperdiciando memoria.
+-	Complejidad de implementación
+Requiere soporte complejo por parte del sistema operativo para manejar tablas de segmentos y asignación de memoria.
+-	Overhead (Tiempo de consumo)
+La gestión de tablas de segmentos puede generar gastos generales de tiempo adicionales. y asignación de memoria dinámica.
+Aunque la segmentación pura es menos común en los sistemas operativos modernos que la paginación o la segmentación de páginas, sigue siendo una técnica valiosa en determinadas situaciones, especialmente cuando proteger y compartir la memoria es importante.
+3.3.2 SEGMENTACIÓN CON PAGINACIÓN
+La segmentación por paginación es común en los sistemas operativos modernos como UNIX (Sistema operativo multitarea de código abierto) y algunas variantes de Windows (Sistema operativo multitarea de la empresa Microsoft). 
+Esta técnica equilibra la gestión de recursos lógicos y la eficiencia de la asignación de memoria, lo que la hace adecuada para una amplia gama de aplicaciones y sistemas.
+Combina los beneficios de la segmentación y la paginación para administrar el almacenamiento de manera más eficiente y flexible. Este enfoque híbrido le permite dividir lógicamente el espacio de direcciones de un proceso en segmentos y cada segmento en páginas de tamaño fijo. 
+esto le permite mantener la lógica de su segmentación mientras minimiza la fragmentación externa, un problema común con la segmentación pura.
+Para implementar la segmentación mediante paginación, se utilizan tanto tablas de segmentos como tablas de varias páginas. La tabla de segmentos mantiene información sobre cada segmento, incluida su base y límites, y un puntero a la tabla de páginas correspondiente. 
+Cada segmento tiene su propia tabla de páginas que gestiona la traducción de direcciones dentro de ese segmento.
+La traducción de direcciones en este sistema implica varios pasos. Primero, se usa el número de segmento de la dirección lógica para buscar en la tabla de segmentos, obteniendo la base del segmento y el puntero a su tabla de páginas. 
+luego, el desplazamiento dentro del segmento se divide en un número de página y un desplazamiento dentro de la página. Este número de página se utiliza para buscar en la tabla de páginas del segmento, obteniendo el marco de página en la memoria física, que se combina con el desplazamiento para obtener la dirección física final.
+Las principales ventajas de la segmentación con paginación incluyen la reducción de la fragmentación externa y la posibilidad de una protección y compartición de memoria más granular, sin embargo, este enfoque también introduce una mayor complejidad en la traducción de direcciones y un mayor overhead (Tiempo de consumo) 
+debido a la necesidad de mantener múltiples tablas de segmentos y páginas. 
+Esta técnica es utilizada en sistemas operativos modernos, como algunas variantes de UNIX (Sistema operativo multitarea de código abierto) y Windows (Sistema operativo multitarea de la empresa Microsoft), proporcionando un equilibrio entre la gestión lógica de los recursos y la eficiencia de la asignación de memoria.
+
+
+1. ¿Qué son los segmentos lógicos?
+ a) En lugar de dividir la memoria física en bloques de tamaño fijo, la segmentación pura divide el espacio de direcciones en segmentos lógicos que corresponden a diferentes partes del programa. Estos segmentos pueden incluir código de programa, datos globales, pila de ejecución, etc.
+
+2. ¿Qué son las direcciones segmentadas?
+b) Las direcciones en sistemas segmentados constan de dos partes: un número de segmento y un desplazamiento dentro de ese segmento. Esto permite que cada segmento se procese de forma independiente para la protección y la gestión del almacenamiento.
+
+3. ¿Qué son las tablas de segmentos?
+c) Cada proceso tiene una tabla de segmentos que contiene la base y los límites de cada segmento. La base es la dirección inicial del segmento en la memoria física y el límite define el tamaño del segmento.
+
+4. ¿Qué son la protección y comparación?
+d) La segmentación permite una protección detallada de la memoria al permitir que cada segmento tenga sus propios permisos (lectura, escritura, ejecución). Además, facilita compartir segmentos entre procesos, como código en bibliotecas compartidas.
+
+5. ¿Qué es la segmentación con paginación?
+ a) Reducción de la fragmentación externa y la posibilidad de una protección y compartición de memoria más granular.
+
+6. ¿Qué se requiere para implementar la segmentación mediante la paginación?
+d) Se utilizan tanto tablas de segmentos como tablas de varias páginas. La tabla de segmentos mantiene información sobre cada segmento, incluida su base y límites, y un puntero a la tabla de páginas correspondiente. Cada segmento tiene su propia tabla de páginas que gestiona la traducción de direcciones dentro de ese segmento.
+
+7. ¿Por qué es importante la segmentación de la memoria?
+ a) La segmentación de memoria proporciona una forma flexible y eficiente de administrar, lo que facilita proteger, compartir y administrar dinámicamente recursos de memoria para programas complejos de varios niveles.
+
+8. ¿Cómo se dividen los programas de segmentación en el usuario?
+c) Divide el programa y sus datos asociados en múltiples segmentos. Hay un límite en la longitud máxima de un segmento, pero no es necesario que todos los programas tengan la misma longitud. De manera similar a la paginación, con segmentación, una dirección lógica consta de dos partes, en este caso un número de segmento y un desplazamiento.
+
+9. ¿Qué importancia tiene la segmentación?
+c) Es una técnica avanzada de gestión de memoria en sistemas operativos que permite dividir el espacio de direcciones lógicas de un proceso en segmentos de tamaño variable, representando cada segmento una unidad lógica y semántica del programa.
+
