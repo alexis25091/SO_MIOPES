@@ -1,0 +1,264 @@
+Los sistemas de archivos constituyen elementos fundamentales de los sistemas de computación. Ofrecen el fundamento para la organización, el almacenamiento y la recuperación de datos, asegurando un desempeño óptimo, así como la implementación a la organización del sistema de archivos a partir de su estructura, asignación de espacio, administración y optimización.
+Por lo que el sistema archivos permiten dentro de sus métodos la administran y control el acceso a la información garantizando la integridad de los datos.
+Es de suma importancia para los estudiantes que al cursar esta unidad de aprendizaje vinculen el conocimiento con la vida profesional ya que los conocimientos adquiridos les ayudaran a resolver problemas de la vida real en el manejo de sistema archivos y su funcionamiento con los diferentes sistemas operativos.
+
+4.1 ESTRUCTURA DEL SISTEMA DE ARCHIVOS
+El sistema de archivos es una parte fundamental de cualquier sistema operativo, ya que es responsable de gestionar cómo se almacenan, organizan, y manipulan los datos en los dispositivos de almacenamiento. Los sistemas de archivos permiten que los usuarios y las aplicaciones interactúen con los datos de manera estructurada, mediante la asignación de nombres a los archivos y directorios, la asignación de espacio en disco, y la implementación de permisos y políticas de acceso. La estructura del sistema de archivos se compone de varias capas que facilitan estas funciones, permitiendo al sistema operativo gestionar eficientemente la información almacenada.
+
+4.1.1 CAPA DEL SISTEMA DE ARCHIVOS
+La capa del sistema de archivos es la encargada de gestionar las operaciones básicas que los usuarios y aplicaciones realizan sobre los archivos, como la creación, modificación, lectura y eliminación de archivos y directorios. Esta capa se sitúa entre las aplicaciones y el hardware, actuando como una interfaz que oculta la complejidad de las operaciones de bajo nivel que se realizan en los dispositivos de almacenamiento.
+
+La capa del sistema de archivos se puede dividir en varias subcapas o componentes, cada una con un rol específico en la gestión de los datos. Estas subcapas incluyen:
+
+Interfaz del sistema de archivos
+Esta subcapa es responsable de proporcionar la interfaz que los usuarios y aplicaciones utilizan para interactuar con el sistema de archivos. Los comandos que los usuarios ejecutan en la terminal o los llamados a funciones específicas en una API se procesan a través de esta subcapa. Proporciona operaciones como abrir, cerrar, leer y escribir archivos. En sistemas como UNIX y Linux, estas operaciones están encapsuladas en llamadas al sistema, como open(), read(), write() y close(), abrir, leer, escribir y cerrar respectivamente.
+----Código 1.
+En este ejemplo, el archivo se abre y su contenido se lee mediante llamadas al sistema que forman parte de la interfaz del sistema de archivos.
+
+Gestión de nombres y directorios
+Otra responsabilidad importante de la capa del sistema de archivos es gestionar los nombres de archivos y la estructura de los directorios. En esta subcapa se implementan las funciones que permiten a los usuarios organizar sus archivos en una estructura de carpetas y subcarpetas, facilitando la organización y búsqueda de datos. Los sistemas operativos utilizan una tabla de directorios que almacena información sobre la ubicación de cada archivo en el sistema.
+Por ejemplo, en sistemas operativos como Linux, la estructura jerárquica se organiza en forma de árbol, donde el directorio raíz (/) es la raíz del sistema de archivos, y debajo de él se encuentran otros directorios y archivos organizados de manera recursiva.
+----Código 1. Ejemplo de jerarquía de directorios.
+En este ejemplo, los archivos están organizados bajo varios directorios, siguiendo una estructura jerárquica clara.
+
+Gestión del espacio en disco
+Esta subcapa es responsable de la asignación y administración del espacio en el dispositivo de almacenamiento. Cada vez que se crea un archivo o se amplía, el sistema de archivos debe decidir cómo asignar bloques de disco para almacenar los datos. La gestión eficiente del espacio en disco incluye la localización de bloques libres, la liberación de bloques que ya no se necesitan y la optimización del almacenamiento para reducir la fragmentación.
+Los sistemas de archivos utilizan diferentes estrategias para asignar espacio en disco. Algunos, como el sistema de archivos ext4 en Linux, utilizan una estrategia basada en bloques, donde los archivos se dividen en bloques de tamaño fijo que se asignan de manera contigua cuando es posible. Otros sistemas de archivos, como NTFS en Windows, utilizan una estructura de clústeres y pueden fragmentar un archivo en múltiples ubicaciones si no hay espacio contiguo suficiente.
+
+Gestión de metadatos
+Además de los datos de los archivos, el sistema de archivos también debe gestionar los metadatos, que incluyen información como los permisos de acceso, la fecha de creación, la fecha de modificación y el tamaño de los archivos. Estos metadatos se almacenan en una estructura separada de los datos de los archivos, y el sistema de archivos debe asegurarse de que siempre estén sincronizados con los datos correspondientes.
+Por ejemplo, en sistemas como ext4, los metadatos se almacenan en inodos, que contienen toda la información necesaria para localizar los datos de un archivo en el disco y para mantener los atributos del archivo. Cada archivo y directorio tiene un inodo asociado que el sistema utiliza para gestionar su ubicación y propiedades.
+----Código 2. Permisos de metadatos.
+En este caso, los metadatos incluyen los permisos (-rw-r—r—), el propietario (usuario), el grupo (grupo), el tamaño del archivo (1024 bytes), y la fecha de última modificación (oct 5 10:32).
+
+Control de acceso y permisos
+La capa del sistema de archivos también se encarga de implementar políticas de seguridad mediante el control de acceso y la gestión de permisos. Cada archivo y directorio tiene permisos asociados que determinan quién puede leer, escribir o ejecutar un archivo. Estos permisos son administrados por el sistema de archivos y son fundamentales para la seguridad y el aislamiento de los usuarios y procesos en un sistema operativo multiusuario.
+Los permisos generalmente se representan utilizando un esquema numérico o simbólico, como en los sistemas basados en UNIX, donde los permisos se dividen en tres grupos: propietario, grupo y otros, con permisos de lectura (r), escritura (w) y ejecución (x).
+---Código 3. Asignación de permisos.
+
+Ejemplo práctico: Función de la capa del sistema de archivos
+Supongamos que un usuario desea copiar un archivo de un directorio a otro en un sistema de archivos UNIX. Este proceso implica varias operaciones que son gestionadas por la capa del sistema de archivos:
+El sistema de archivos busca en la tabla de directorios la ubicación física del archivo en el disco.
+Se acceden a los bloques de disco que contienen los datos del archivo y se copian en la memoria.
+Se crea una nueva entrada en la tabla de directorios del destino, asociando un nuevo inodo al archivo copiado.
+Se asignan bloques de disco libres para almacenar los datos en la nueva ubicación.
+Se actualizan los metadatos del archivo copiado, como la fecha de creación y los permisos.
+Este proceso es completamente gestionado por la capa del sistema de archivos, sin que el usuario necesite conocer los detalles de la asignación de bloques o el manejo de inodos.
+La capa del sistema de archivos es una parte esencial en la estructura del sistema operativo que facilita la interacción entre los usuarios y las aplicaciones con los datos almacenados en el sistema. A través de múltiples subcapas, como la interfaz de usuario, la gestión de nombres y directorios, la asignación de espacio en disco, y el control de acceso, esta capa abstrae la complejidad de las operaciones en los dispositivos de almacenamiento, ofreciendo una interfaz coherente y eficiente para el manejo de los archivos.
+4.2 IMPLEMENTACIÓN
+La implementación del sistema de archivos se refiere a cómo un sistema operativo gestiona y organiza los archivos y directorios en un dispositivo de almacenamiento. Esta implementación abarca diversos aspectos como la representación de archivos, la estructura de directorios, la asignación de espacio en disco y la gestión de archivos compartidos. Una implementación eficiente es crucial para asegurar un acceso rápido, confiable y seguro a los datos.
+
+4.2.1 DE ARCHIVOS
+La implementación de archivos se centra en cómo el sistema operativo representa y gestiona los archivos en el disco. Un archivo no es más que una secuencia de bytes almacenada en un medio físico, pero el sistema operativo debe mantener información adicional para facilitar su acceso, como el nombre, el tamaño, los permisos, las fechas de creación y modificación, y la ubicación en el disco.
+Los archivos se almacenan en bloques de disco, y la forma en que estos bloques se asignan y organizan puede variar según el sistema de archivos. Hay tres métodos comunes de implementación:
+-	Asignación contigua
+Los archivos se almacenan en bloques consecutivos en el disco, lo que permite un acceso muy rápido, ya que no se requiere saltar entre bloques dispersos. Sin embargo, este enfoque sufre de fragmentación externa, lo que significa que encontrar un espacio contiguo lo suficientemente grande para nuevos archivos puede volverse difícil con el tiempo.
+Ejemplo
+Si un archivo de 1000 bytes necesita ser almacenado y cada bloque de disco tiene 256 bytes, se necesitan 4 bloques contiguos para guardar archivo. Si más tarde se intenta agregar otro archivo de 2000 bytes, pero no hay espacio contiguo de esa magnitud, el archivo no podrá almacenarse en esa ubicación, incluso si hay espacio suficiente en otras partes del disco.
+
+-	Asignación enlazada
+En este método, los bloques de un archivo están enlazados entre sí mediante punteros, lo que permite que los bloques no estén necesariamente contiguos. El último bloque de cada archivo contiene un puntero al siguiente bloque, facilitando la gestión del espacio. Sin embargo, el acceso es más lento, ya que es necesario seguir los punteros para leer el archivo completo.
+Por ejemplo, en sistemas operativos como Linux, la estructura jerárquica se organiza en forma de árbol, donde el directorio raíz (/) es la raíz del sistema de archivos, y debajo de él se encuentran otros directorios y archivos organizados de manera recursiva.
+Ejemplo
+Si un archivo está almacenado en los bloques 10, 25, y 100, el sistema almacena un puntero en el bloque 10 que apunta al bloque 25, y otro puntero en el bloque 25 que apunta al bloque 100. Para acceder a todo el archivo, el sistema debe seguir estos enlaces.
+-	Asignación indexada
+Los sistemas de archivos modernos, como ext4, utilizan la asignación indexada, en la que un bloque especial (llamado bloque de índice o inodo) contiene los punteros a los bloques de datos del archivo. Esto permite un acceso más eficiente y elimina la necesidad de bloques contiguos o enlaces entre bloques de datos. La fragmentación se reduce considerablemente y se optimiza el acceso a los archivos.
+Ejemplo
+Supongamos que un archivo está almacenado en los bloques 5, 30, 45, y 70. El sistema de archivos crea un inodo que contiene punteros a estos bloques, y el sistema operativo accede directamente a los bloques a través del inodo.
+
+4.2.2 DE DIRECTORIOS
+Los directorios son una parte esencial de la organización de archivos, ya que proporcionan una estructura jerárquica para organizar los archivos en carpetas y subcarpetas. Cada directorio contiene entradas que representan archivos y subdirectorios, facilitando la navegación por el sistema de archivos.
+Existen diferentes maneras de implementar los directorios:
+
+Directorios simples o planos
+En este esquema, todos los archivos y directorios están en el mismo nivel, lo que significa que no hay una estructura jerárquica. Este método es sencillo de implementar, pero no es práctico para sistemas grandes, ya que encontrar archivos se vuelve complicado y la gestión de nombres de archivos puede presentar conflictos.
+Un ejemplo en un sistema con directorios planos, todos los archivos del sistema podrían estar en una sola carpeta, como en la siguiente Figura 2.
+Figura 2. Representación de sistema con directorios planos.
+Los archivos se agrupan en carpetas relacionadas, lo que facilita su gestión y búsqueda.
+
+Directorios jerárquicos
+Este es el método más común en los sistemas modernos. En una estructura jerárquica, los archivos se organizan en carpetas y subcarpetas. Los sistemas operativos como Linux, Windows y macOS utilizan este esquema, donde el directorio raíz (/ en Linux y C:\ en Windows) contiene otros directorios que a su vez pueden contener más archivos y carpetas.
+Por ejemplo, una estructura jerárquica podría ser como en la siguiente Figura 3.
+Figura 3. Representación de sistema con directorios jerárquicos.
+Los archivos se agrupan en carpetas relacionadas, lo que facilita su gestión y búsqueda.
+
+Directorios hash
+Algunos sistemas de archivos utilizan tablas hash para almacenar entradas de directorios. Esto mejora el rendimiento al buscar archivos dentro de directorios muy grandes, ya que el uso de un hash permite encontrar rápidamente la entrada correcta. Sin embargo, es más complejo de implementar y mantener.
+
+
+4.2.3 ARCHIVOS COMPARTIDOS
+La compartición de archivos es una característica esencial en sistemas multiusuario o en redes, donde diferentes usuarios y aplicaciones pueden necesitar acceder al mismo archivo simultáneamente. La implementación de archivos compartidos plantea varios desafíos, como la gestión de permisos, la sincronización de acceso y la coherencia de los datos. Existen varias formas de implementar archivos compartidos en un sistema de archivos:
+Enlaces duros (
+hard links
+)
+Un enlace duro es una entrada en el sistema de archivos que apunta al mismo inodo (es decir, la misma ubicación en disco) que otro archivo. Ambos nombres de archivo son iguales para el sistema, por lo que cualquier cambio realizado en uno de los archivos se refleja automáticamente en el otro. Sin embargo, los enlaces duros solo pueden crearse en el mismo sistema de archivos.
+A continuación, se presenta un ejemplo ilustrativo de enlace duro en Linux usando el comando ln, ambos archivos comparten el mismo contenido
+--Código 4. Uso de comando ln.
+El archivo1.txt y enlace_duro.txt son dos nombres que apuntan al mismo contenido en el disco.
+
+Enlaces simbólicos (
+soft links o symlinks
+)
+Los enlaces simbólicos son archivos que contienen una referencia (puntero) a otro archivo o directorio. A diferencia de los enlaces duros, los enlaces simbólicos pueden apuntar a archivos en diferentes sistemas de archivos o discos. Sin embargo, si el archivo original se elimina, el enlace simbólico se vuelve inválido (un enlace “roto”).
+A conitnuación, se presenta un ejemplo de uso del comando ln -s.
+
+Código 5. Creación de enlace simbólico en Linux.
+Dado que enlace_simbolico.txt apunta a archivo1.txt. Si se elimina archivo1.txt, el enlace simbólico quedará roto.
+
+Control de acceso concurrente
+Cuando varios usuarios o procesos acceden simultáneamente a un archivo compartido, el sistema de archivos debe implementar mecanismos para evitar conflictos y garantizar la coherencia de los datos. Los sistemas de archivos suelen utilizar bloqueos de archivos (file locks) para controlar el acceso concurrente. Un bloqueo puede ser de lectura o escritura, y asegura que cuando un proceso está accediendo al archivo, otros procesos no puedan modificarlo.
+En Linux, se puede utilizar la función flock() para bloquear un archivo y garantizar que solo un proceso pueda escribir en él en un momento dado.
+Código 6. Ejemplo de bloqueo de archivos.
+La implementación del sistema de archivos abarca la gestión eficiente de archivos, directorios y archivos compartidos. El sistema operativo debe equilibrar el uso del espacio en disco, el rendimiento y la coherencia de los datos para garantizar un acceso rápido y seguro a la información.
+
+Los métodos como la asignación contigua, enlazada e indexada permiten gestionar eficientemente los archivos, mientras que los directorios jerárquicos facilitan la organización de los datos. La compartición de archivos se logra mediante enlaces duros, simbólicos y mecanismos de control de acceso concurrente, que permiten la colaboración entre usuarios y procesos.
+
+4.3 MÉTODOS DE ASIGNACIÓN DE ESPACIO
+La asignación de espacio es una parte fundamental del diseño del sistema de archivos, ya que define cómo se almacenan los archivos en el disco y cómo se asignan los bloques de almacenamiento. Dado que los archivos varían en tamaño y pueden crecer o disminuir con el tiempo, los sistemas de archivos deben gestionar el espacio de manera eficiente para evitar la fragmentación, optimizar el uso del almacenamiento y garantizar un acceso rápido a los datos. Existen varios métodos de asignación de espacio, cada uno con sus ventajas y desventajas. A continuación, se describen los métodos más comunes de asignación: contigua, ligada e indexada, así como la administración del espacio en disco.
+En caso de requerir más información sobre el tema, se proporciona el siguiente 
+
+4.3.1 CONTIGUA
+La asignación contigua es uno de los métodos más sencillos para almacenar archivos en el disco. En este esquema, se asigna a cada archivo un conjunto de bloques consecutivos en el disco. Esto permite un acceso rápido y eficiente, ya que la lectura secuencial no requiere saltar entre diferentes áreas del disco. Sin embargo, este método tiene varios inconvenientes, como la fragmentación externa y la dificultad para encontrar bloques contiguos lo suficientemente grandes para archivos que crecen con el tiempo.
+Ventajas
+Acceso rápido: Los archivos se pueden leer de manera secuencial sin interrupciones, lo que mejora la velocidad de acceso, especialmente en operaciones de lectura secuencial.
+Fácil de implementar: El sistema solo necesita conocer la dirección del primer bloque y la longitud del archivo para acceder a todos los datos.
+
+Desventajas
+Fragmentación externa: A medida que los archivos se crean y eliminan, puede resultar difícil encontrar un espacio contiguo lo suficientemente grande para nuevos archivos o archivos que crecen.
+Espacio desperdiciado: Si un archivo aumenta de tamaño, es posible que no haya suficiente espacio contiguo, lo que obliga a mover el archivo completo a una nueva ubicación, lo que desperdicia recursos.
+Ejemplo
+Supongamos que un archivo necesita ocupar 4 bloques consecutivos en el disco y el sistema de archivos utiliza bloques de 1 KB. Si los bloques 5, 6, 7 y 8 están libres, se pueden asignar contiguamente para almacenar el archivo. Sin embargo, si más tarde se necesita ampliar el archivo y los bloques consecutivos ya no están disponibles, será necesario trasladar todo el archivo a una nueva ubicación.
+A continuación se presenta una imagen ilustrativa del ejemplo anterior
+Figura 4. Ejemplo de asignación de espacio.
+En caso de requerir más información sobre el tema, se proporciona el siguiente material audiovisual.
+
+4.3.2 LIGADA
+La asignación ligada (o enlazada) resuelve algunos de los problemas de la asignación contigua al permitir que los bloques de un archivo se almacenen en cualquier lugar disponible del disco, pero cada bloque contiene un puntero al siguiente bloque. De este modo, no es necesario que los bloques sean consecutivos, y el sistema de archivos puede utilizar cualquier espacio libre disponible.
+
+Ventajas
+Elimina la fragmentación externa: Los bloques no tienen que ser contiguos, lo que facilita la asignación de espacio incluso cuando el disco está muy fragmentado.
+Expansión dinámica: Los archivos pueden crecer fácilmente al agregar nuevos bloques en cualquier parte del disco.
+
+Desventajas
+Acceso más lento: Para leer o escribir en un archivo, el sistema debe seguir los punteros entre los bloques, lo que puede ralentizar las operaciones de acceso.
+No es adecuado para acceso aleatorio: Este método es más eficiente para el acceso secuencial, pero el acceso aleatorio (lectura de bloques no consecutivos) es lento porque requiere recorrer la cadena de punteros.
+
+Ejemplo
+Si un archivo está almacenado en los bloques 4, 20, y 50, el primer bloque (4) contendrá un puntero al bloque 20, el bloque 20 contendrá un puntero al bloque 50, y el bloque 50 indicará el final del archivo.
+A continuación se presenta una imagen ilustrativa del ejemplo anterior
+Figura 5. Ejemplo de archivos enlistados
+Este método es muy eficiente para archivos grandes, donde el acceso aleatorio a los datos es importante.
+
+4.3.3 INDEXADA
+La asignación indexada es un método más avanzado que utiliza un bloque especial llamado bloque de índice, que contiene punteros a los bloques de datos del archivo. Este enfoque permite un acceso directo a cualquier bloque del archivo, ya que todos los punteros están en una estructura centralizada (el bloque de índice). Esto elimina la necesidad de seguir una cadena de punteros entre bloques, como en la asignación ligada.
+
+Ventajas
+Acceso directo: Se puede acceder rápidamente a cualquier bloque del archivo utilizando el bloque de índice, lo que mejora el rendimiento en comparación con la asignación ligada.
+Expansión flexible: Los archivos pueden crecer sin necesidad de mover otros bloques, ya que el bloque de índice puede apuntar a bloques adicionales en cualquier lugar del disco.
+Robustez: Si un bloque de datos se corrompe, los demás bloques no se ven afectados, ya que no están enlazados entre sí como en la asignación ligada.
+
+Desventajas
+Requiere un bloque de índice: Esto introduce una sobrecarga adicional, ya que se necesita espacio adicional para el bloque de índice.
+
+Limitaciones de tamaño: Si el archivo es muy grande, puede ser necesario utilizar varios niveles de bloques de índice, lo que complica la gestión del archivo.
+
+Ejemplo
+Supongamos que un archivo está dividido en cinco bloques de datos. El sistema de archivos crea un bloque de índice que contiene los punteros a estos bloques, lo que permite un acceso directo a cualquier bloque.
+A continuación se presenta una imagen ilustrativa del ejemplo anterior
+Figura 6. Bloques de datos enlistados.
+Este método es muy eficiente para archivos grandes, donde el acceso aleatorio a los datos es importante.
+
+4.3.4 ADMINISTRACIÓN DEL ESPACIO EN DISCO
+La administración del espacio en disco es fundamental para que el sistema operativo gestione eficientemente los bloques de almacenamiento disponibles. Existen varias técnicas para administrar los bloques libres y asegurarse de que el espacio se utilice de manera óptima:
+Listas enlazadas
+El sistema mantiene una lista enlazada de todos los bloques libres. Cuando se necesita un bloque para un archivo, el sistema toma el primer bloque de la lista y lo asigna al archivo.
+Por ejemplo, Si el disco tiene bloques libres en las posiciones 5, 10, y 20, el sistema de archivos puede mantener una lista enlazada como 5 → 10 → 20 . Cuando se necesita un bloque, el sistema toma el bloque 5 y actualiza la lista a 10 → 20.
+Mapas de bits
+Cada bloque de disco está representado por un bit en un mapa de bits. Un bit en “1” indica que el bloque está ocupado, mientras que un bit en “0” indica que el bloque está libre. Este método permite que el sistema de archivos verifique rápidamente qué bloques están disponibles y cuáles están en uso.
+
+A continuación, se presenta un ejemplo.
+Figura 7. Mapas de bits.
+En este caso, los bloques 1, 3, y 7 están ocupados, mientras que los bloques 2, 4, 5, y 6 están libres.
+Bloques de grupo
+Los bloques libres se agrupan en bloques especiales que contienen punteros a otros bloques libres. Cuando se necesita asignar bloques, se consulta este grupo para obtener una lista de bloques libres y asignarlos en lotes, lo que puede mejorar la eficiencia.
+Por ejemplo, Si se necesita asignar varios bloques a un archivo, el sistema puede consultar un grupo de bloques que contenga punteros a un conjunto de bloques libres y asignar varios a la vez, en lugar de hacerlo uno por uno.
+Los métodos de asignación de espacio son esenciales para determinar cómo se almacenan los archivos en un sistema de archivos. La asignación contigua ofrece un acceso rápido, pero puede sufrir fragmentación externa; la asignación ligada resuelve la fragmentación pero introduce acceso más lento; y la asignación indexada ofrece acceso eficiente y flexible. La administración del espacio en disco asegura que los bloques libres se gestionen de manera óptima para maximizar la utilización del espacio y mantener un rendimiento adecuado del sistema de archivos.
+
+4.4 SISTEMAS DE ARCHIVOS ESTRUCTURADOS
+Los sistemas de archivos estructurados son aquellos que organizan y administran los datos en el almacenamiento de una manera organizada y predefinida. Estos sistemas permiten a los sistemas operativos realizar un seguimiento preciso de la ubicación, acceso y gestión de los archivos almacenados en un dispositivo de almacenamiento. Existen diversos tipos de sistemas de archivos estructurados, cada uno con sus propias características, y pueden clasificarse en dos categorías principales: sistemas de archivos de bitácora y sistemas de archivos de diario.
+
+A continuación se presenta una lista de los sistemas de archivos más comunes de acuerdo a su categoría.
+
+Sistemas de archivos de bitácora
+Son sistemas de archivos estructurados que no mantienen un registro de las operaciones realizadas en el sistema. Los cambios se aplican directamente al sistema de archivos, lo que hace que la recuperación en caso de fallo sea más compleja y requiera una revisión completa del sistema.
+
+FAT32
+Sistema de archivos compatible con múltiples sistemas operativos y adecuado para unidades extraíbles.
+exFAT
+Optimizado para memorias, permite archivos grandes y es compatible en varios dispositivos.
+ext2
+Sistema de archivos de Linux sin journaling, utilizado en entornos donde no es necesario el registro en diario.
+Sistemas de archivos de diario
+Estos sistemas mantienen un registro (diario) de las operaciones, especialmente de los metadatos. En caso de fallo, el sistema puede utilizar el diario para restuaruar el estado coherente del sistema de archivos de manera rápida y confiable.
+
+NTFS
+Sistema de archivos de Windows con soporte para journaling y permisos avanzados.
+ext3
+Versión de ext2 con journaling, ampliamente utilizada para manejar archivos grandes.
+ReiserFS
+Sistema de archivos de Linux optimizado para manejar grandes cantidades de archivos pequeños.
+JFS
+Sistema de archivos de IBM para Linux, optimizado para servidores con journaling completo.
+
+4.4.1 POR BITÁCORAS
+Aunque los sistemas de archivos estructurados por registro son una idea interesante, no se utilizan ampliamente, debido en parte a su alta incompatibilidad con los sistemas de archivos existentes. Sin embargo, una de las ideas inherentes en ellos, la robustez frente a las fallas, se puede aplicar con facilidad a sistemas de archivos más convencionales.
+
+La idea básica aquí es mantener un registro de lo que va a realizar el sistema de archivos antes de hacerlo, por lo que si el sistema falla antes de poder realizar su trabajo planeado, al momento de re-arrancar el sistema puede buscar en el registro para ver lo que estaba ocurriendo al momento de la falla y terminar el trabajo.
+
+Dichos sistemas de archivos, conocidos como sistemas de archivos por bitácora (Journaling Files System, JFS), se encuentran en uso actualmente. El sistema de archivos NTFS de Microsoft, así como los sistemas ext3 y ReiserFS de Linux son todos por bitácora.
+
+Para ver la naturaleza del problema, considere una operación simple que ocurre todo el tiempo: remover un archivo. Esta operación (en UNIX) requiere tres pasos:
+
+Quitar el archivo de su directorio.
+Liberar el nodo-i y pasarlo a la reserva de nodos-i libres.
+Devolver todos los bloques de disco a la reserva de bloques de disco libres.
+En Windows se requieren pasos similares. En la ausencia de fallas del sistema, el orden en el que se realizan estos pasos no importa; en la presencia de fallas, sí. Suponga que se completa el primer paso y después el sistema falla.
+
+El nodo-i y los bloques de archivo no estarán accesibles desde ningún archivo, pero tampoco estarán disponibles para ser reasignados; sólo se encuentran en alguna parte del limbo, disminuyendo los recursos disponibles. Si la falla ocurre después del siguiente paso, sólo se pierden los bloques.
+Figura 8.  Sistema de archivos NTFS presente en Windows 10.
+
+4.4.2 POR DIARIO
+Un sistema de archivos de registro en diario mantiene un registro de cambios, llamado diario, que facilita la recuperación en caso de fallos. Este diario permite que, ante un corte de energía o fallo del sistema, el sistema de archivos se restaure rápidamente a un estado coherente, reduciendo la posibilidad de corrupción de datos.
+
+Este sistema mejora la integridad de los datos y optimiza el proceso de recuperación al evitar la necesidad de escanear todo el disco para detectar errores.
+
+Un sistema de archivos de registro por diario permite la recuperación rápida del sistema de archivos después de que se produzca una anomalía al registrar los metadatos de los archivos.Si se habilita el registro del sistema de archivos, el sistema registra cada cambio en los metadatos del archivo en un área reservada del sistema de archivos. Las operaciones de grabación reales se realizan después de que se haya completado el registro de los cambios en los metadatos.
+
+Beneficios del sistema de archivos con diario
+Fiabilidad de los datos
+Al registrar cambios antes de aplicarlos, se evita la corrupción de datos en situaciones inesperadas.
+Recuperación optimizada
+Permite restaurar el sistema de archivos rápidamente tras un fallo, reduciendo el tiempo y complejidad de reparación.
+Mejora de rendimiento
+Algunas implementaciones de journaling agrupan operaciones para reducir la cantidad de escrituras al disco.
+Modos de registro en diario
+Write-ahead logging
+Solo registra los metadatos antes de actualizar el disco, ofreciendo recuperación rápida de la estructura del sistema de archivos.
+Ordered mode
+Registra tanto metadatos como datos antes de escribir en el disco, garantizando recuperación completa pero con impacto menor en la velocidad.
+Data mode
+Registra tanto datos como metadatos antes de cualquier cambio, ofreciendo máxima recuperación, pero es más lento y ocupa más espacio en disco.
+Desventajas
+Consumo de espacio
+El diario consume espacio adicional en el disco, y si se realizan muchas operaciones, el tamaño del diario puede afectar el rendimiento.
+Impacto en el rendimiento
+La escritura continua en el diario puede agregar sobrecarga, especialmente en sistemas con recursos limitados.
+Limitaciones en la coherencia de datos de usuario
+En algunos modos, solo se garantiza la consistencia de los metadatos, no de los datos del usuario.
+Prácticas recomendadas
+Elegir el modo de journaling adecuado en función de la carga de trabajo.
+Asignar espacio suficiente para el diario y realizar copias de seguridad regulares.
+En caso de requerir más información sobre el tema, se proporciona el siguiente material audiovisual.
+
+Sistemas de archivos estructurados por diario
+
